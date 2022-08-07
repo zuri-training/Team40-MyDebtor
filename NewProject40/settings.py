@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os
 from datetime import timedelta
-from decouple import config
+# from decouple import config
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -117,10 +117,10 @@ WSGI_APPLICATION = 'NewProject40.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': config ('NAME'),#'railway',  # 'Studebt'
+        'NAME': 'project40',#'railway',  # 'Studebt'
         'HOST': 'localhost', #'containers-us-west-64.railway.app'
         'USER': 'root',
-        'PASSWORD': config('PASSWORD') #'rSGZpuqcgL9YXv3Lk4JO',  
+        'PASSWORD': 'Omoniyi1-B' #'rSGZpuqcgL9YXv3Lk4JO',  
         #'PORT': '5817',
     }
 }
@@ -259,7 +259,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 EMAIL_BACKEND  = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = 'localhost'
-EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_PORT = 2525
 EMAIL_USERNAME = '' #config('EMAIL_USERNAME')
 EMAIL_PASSWORD =  '' #config('EMAIL_PASSWORD')
 
