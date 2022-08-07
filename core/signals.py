@@ -8,13 +8,19 @@ from django.contrib.auth.models import Group
 def add_user_to_group(instance, created, sender, **kwargs):
     if created:
         
+        if not Group.objects.filter(name = 'School').exists():
+
+            Group.objects.create(name = 'School')
+            Group.objects.create(name = 'Parent')
+
+            
 
         if instance.NIN == "":
             school_group = Group.objects.get(name = 'School')
 
             instance.groups.add(school_group)
-            
         
+    
         else:
             parent_group = Group.objects.get(name = 'Parent') 
             instance.groups.add(parent_group)

@@ -38,17 +38,16 @@ INSTALLED_APPS = [
     'core',
     'mydebtors',
 
-    'rest_framework',
-    'djoser',
     'corsheaders',
-
     'debug_toolbar',
-    'jazzmin',
+    'drf_yasg',
     'django_filters',
+    'djoser',
+    'jazzmin',
     'social_django',
+    'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
-
 
 
 
