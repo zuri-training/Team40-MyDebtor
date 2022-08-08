@@ -51,6 +51,12 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
 
 
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -66,7 +72,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 
     'social_django.middleware.SocialAuthExceptionMiddleware',
-    
+
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -89,7 +95,7 @@ ROOT_URLCONF = 'NewProject40.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -117,13 +123,12 @@ WSGI_APPLICATION = 'NewProject40.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': config ('NAME'),
-        'HOST': 'localhost', 
-        'USER': 'root',
-        'PASSWORD': config('PASSWORD')
+        'NAME': config ('NAME'), 
+        'HOST':'localhost',
+        'USER':'root',
+        'PASSWORD': config('PASSWORD'),  
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -190,10 +195,19 @@ AUTHENTICATION_BACKENDS = [
 
     'django.contrib.auth.backends.ModelBackend',
 
-    
-
     # 'my_debtors.backends.StudentBackend',
 ]
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
 
 
 REST_FRAMEWORK = {
@@ -213,9 +227,12 @@ SIMPLE_JWT = {
 }
 
 SITE_NAME = ('Studebt')
+SITE_ID = 3
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 DJOSER = {
-
 
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
@@ -227,7 +244,7 @@ DJOSER = {
 
     'USER_CREATE_PASSWORD_RETYPE': True,
 
-    #'SET_PASSWORD_RETYPE': True,
+    # 'SET_PASSWORD_RETYPE': True,
     'LOGOUT_ON_PASSWORD_CHANGE': True,
 
     'SEND_CONFIRMATION_EMAIL': True,
@@ -235,33 +252,32 @@ DJOSER = {
     'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ['http://localhost:8000'],
 
     'SERIALIZERS': {
-        
-         'user_create_password_retype': 'core.serializers.CustomUserCreateSerializer',
 
-     },
+        'user_create_password_retype': 'core.serializers.CustomUserCreateSerializer',
 
-     'SESSION_COOKIE_SECURE': False,
+    },
+
+    'SESSION_COOKIE_SECURE': False,
 
 
 }
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '868580744114-l3q29kv9kff70gu1mg68tjgskt158f5o.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile', 'openid']
-                                   
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['https://www.googleapis.com/auth/userinfo.email',
+                                   'https://www.googleapis.com/auth/userinfo.profile', 'openid']
+
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 
 
 # SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ['state']
 
 
-EMAIL_BACKEND  = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = 'localhost'
-EMAIL_PORT = config('EMAIL_PORT')
-EMAIL_USERNAME = '' #config('EMAIL_USERNAME')
-EMAIL_PASSWORD =  '' #config('EMAIL_PASSWORD')
+EMAIL_PORT = 2525
+EMAIL_USERNAME = config('EMAIL_USERNAME')
+EMAIL_PASSWORD = config('EMAIL_PASSWORD')
 
 # USE_TLS = True
-
-

@@ -15,4 +15,3 @@ class PrincipalViewSet (ModelViewSet):
     queryset = Principal.objects.all()
     serializer_class = PrincipalSerializer
 
-    

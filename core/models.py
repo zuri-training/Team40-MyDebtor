@@ -31,7 +31,7 @@ def get_school_logo_path(request, filename):
 
 
 
-class CustomUser(AbstractUser):
+class CustomUser(AbstractUser):  
 
     username = None
     email = models.EmailField(unique=True)
@@ -49,7 +49,7 @@ class CustomUser(AbstractUser):
 
 class School (models.Model):
 
-    CATEGORY = (
+    CATEGORY = ( 
         ('PRY', 'Primary'),
         ('SEC', 'Secondary')
     )
@@ -74,10 +74,10 @@ class School (models.Model):
 class Principal (models.Model):
 
     GENDER = (
-        ('Male', 'Male'),
-        ('Female', 'Female')
+        ('M', 'Male'),
+        ('F', 'Female')
     )
-
+    # using first letter for gender choice
     SELECT_ID_TYPE = (
         ('NIN', 'National Identity Number'),
         ("License", "Driver's License" ),
