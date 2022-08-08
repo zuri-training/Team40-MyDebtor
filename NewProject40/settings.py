@@ -38,16 +38,24 @@ INSTALLED_APPS = [
     'core',
     'mydebtors',
 
-    'rest_framework',
-    'djoser',
     'corsheaders',
-
     'debug_toolbar',
-    'jazzmin',
+    'drf_yasg',
     'django_filters',
+    'djoser',
+    'jazzmin',
     'social_django',
+    'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+
+
+'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+
 
 
 
@@ -89,7 +97,7 @@ ROOT_URLCONF = 'NewProject40.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -195,6 +203,17 @@ AUTHENTICATION_BACKENDS = [
 
     # 'my_debtors.backends.StudentBackend',
 ]
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
 
 
 REST_FRAMEWORK = {
@@ -214,6 +233,10 @@ SIMPLE_JWT = {
 }
 
 SITE_NAME = ('Studebt')
+SITE_ID = 3
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 DJOSER = {
 
