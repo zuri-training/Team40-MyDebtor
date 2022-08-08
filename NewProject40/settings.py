@@ -37,6 +37,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'core',
     'mydebtors',
+    'info_hub',
 
     'corsheaders',
     'debug_toolbar',
@@ -116,11 +117,10 @@ WSGI_APPLICATION = 'NewProject40.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': config ('NAME'),#'railway',  # 'Studebt'
-        'HOST': 'localhost', #'containers-us-west-64.railway.app'
+        'NAME': config ('NAME'),
+        'HOST': 'localhost', 
         'USER': 'root',
-        'PASSWORD': config('PASSWORD') #'rSGZpuqcgL9YXv3Lk4JO',  
-        #'PORT': '5817',
+        'PASSWORD': config('PASSWORD')
     }
 }
 

@@ -63,8 +63,8 @@ class School (models.Model):
     LGA = models.CharField(max_length=255)
     address = models.CharField(max_length=1000)
     logo = models.ImageField(upload_to =get_school_logo_path, default = 'default.jpg')
-    date_created = models.DateTimeField(auto_now=True)
-    date_updated = models.DateTimeField(auto_now_add=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
 
     user = models.OneToOneField(USER, on_delete=models.CASCADE)
 
@@ -97,6 +97,5 @@ class Principal (models.Model):
     letter  = models.FileField(validators = [validate_file_size, FileExtensionValidator(allowed_extensions=['jpg','pdf','png'])],  upload_to = get_credentials_path, default = 'default_id.png')
     id_card = models.FileField(validators = [validate_file_size, FileExtensionValidator(allowed_extensions=['jpg','pdf','png'])],  upload_to = get_credentials_path, default = 'default_id.png')
 
-
-
+    verification = models.BooleanField(default=False)
     
