@@ -5,8 +5,9 @@ from datetime import datetime
 from uuid import uuid4
 
 from core.validators import validate_file_size  # Dependecy issue to be resolved later
+    
 from django.conf import settings
-from django.core.validators import FileExtensionValidator  
+from django.core.validators import FileExtensionValidator
 from django.db import models
 
 # Create your models here.

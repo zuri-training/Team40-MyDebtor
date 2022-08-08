@@ -1,7 +1,8 @@
-from django.dispatch import receiver
 from django.db.models.signals import post_save
-from .models import Sponsor
+from django.dispatch import receiver
 from templated_mail.mail import BaseEmailMessage
+
+from .models import Sponsor
 
 
 @receiver(post_save, sender = Sponsor )

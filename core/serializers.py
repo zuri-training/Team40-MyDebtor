@@ -1,8 +1,8 @@
-# from itsdangerous import Serializer
-from rest_framework.serializers import ModelSerializer
-from .models import *
 from djoser.serializers import UserCreatePasswordRetypeSerializer as RegisterSerializer
+    
+from rest_framework.serializers import ModelSerializer
 
+from .models import *
 
 
 class CustomUserCreateSerializer (RegisterSerializer):
