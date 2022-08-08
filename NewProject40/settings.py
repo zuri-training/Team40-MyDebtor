@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os
 from datetime import timedelta
-# from decouple import config
+from decouple import config
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
 
 
-'django.contrib.sites',
+    'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -74,7 +74,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 
     'social_django.middleware.SocialAuthExceptionMiddleware',
-    
+
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -125,11 +125,11 @@ WSGI_APPLICATION = 'NewProject40.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'project40',#'railway',  # 'Studebt'
-        'HOST': 'localhost', #'containers-us-west-64.railway.app'
+        'NAME':  config('NAME'),
+        'HOST': config('HOST'),
         'USER': 'root',
-        'PASSWORD': 'Omoniyi1-B' #'rSGZpuqcgL9YXv3Lk4JO',  
-        #'PORT': '5817',
+        'PASSWORD': config('PASSWORD'),
+        'PORT': config('PORT'),
     }
 }
 
@@ -199,8 +199,6 @@ AUTHENTICATION_BACKENDS = [
 
     'django.contrib.auth.backends.ModelBackend',
 
-    
-
     # 'my_debtors.backends.StudentBackend',
 ]
 SOCIALACCOUNT_PROVIDERS = {
@@ -240,7 +238,6 @@ LOGOUT_REDIRECT_URL = '/'
 
 DJOSER = {
 
-
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
 
@@ -251,7 +248,7 @@ DJOSER = {
 
     'USER_CREATE_PASSWORD_RETYPE': True,
 
-    #'SET_PASSWORD_RETYPE': True,
+    # 'SET_PASSWORD_RETYPE': True,
     'LOGOUT_ON_PASSWORD_CHANGE': True,
 
     'SEND_CONFIRMATION_EMAIL': True,
@@ -259,33 +256,32 @@ DJOSER = {
     'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ['http://localhost:8000'],
 
     'SERIALIZERS': {
-        
-         'user_create_password_retype': 'core.serializers.CustomUserCreateSerializer',
 
-     },
+        'user_create_password_retype': 'core.serializers.CustomUserCreateSerializer',
 
-     'SESSION_COOKIE_SECURE': False,
+    },
+
+    'SESSION_COOKIE_SECURE': False,
 
 
 }
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '868580744114-l3q29kv9kff70gu1mg68tjgskt158f5o.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile', 'openid']
-                                   
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['https://www.googleapis.com/auth/userinfo.email',
+                                   'https://www.googleapis.com/auth/userinfo.profile', 'openid']
+
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 
 
 # SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ['state']
 
 
-EMAIL_BACKEND  = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 2525
-EMAIL_USERNAME = '' #config('EMAIL_USERNAME')
-EMAIL_PASSWORD =  '' #config('EMAIL_PASSWORD')
+EMAIL_USERNAME = config('EMAIL_USERNAME')
+EMAIL_PASSWORD = config('EMAIL_PASSWORD')
 
 # USE_TLS = True
-
-
