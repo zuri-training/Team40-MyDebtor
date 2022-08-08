@@ -74,10 +74,10 @@ class School (models.Model):
 class Principal (models.Model):
 
     GENDER = (
-        ('Male', 'Male'),
-        ('Female', 'Female')
+        ('M', 'Male'),
+        ('F', 'Female')
     )
-
+    # using first letter for gender choice
     SELECT_ID_TYPE = (
         ('NIN', 'National Identity Number'),
         ("License", "Driver's License" ),
