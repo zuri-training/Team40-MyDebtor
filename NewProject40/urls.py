@@ -7,6 +7,8 @@ from drf_yasg.views import get_schema_view
 from mydebtors.views import BioDataView
 from rest_framework import permissions
 
+# customize the django admin with Studebt Admin
+admin.site.site_header = 'Studebt Admin'
 
 schema_view = get_schema_view(
     openapi.Info(
