@@ -10,11 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-from pathlib import Path
 import os
 from datetime import timedelta
-from decouple import config
+from pathlib import Path
 
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,7 +37,11 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'core',
     'mydebtors',
+    << << << < HEAD
     'whitenoise',
+    == == == =
+    'info_hub',
+    >>>>>> > 1f150130aad1b8ddabb6316cf045924679f705f4
 
     'corsheaders',
     'debug_toolbar',
@@ -58,17 +62,12 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
 
 
-
-
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-
 ]
 
 MIDDLEWARE = [
@@ -126,14 +125,12 @@ WSGI_APPLICATION = 'NewProject40.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':  config('NAME'),
-        'HOST': config('HOST'),
+        'NAME': config('NAME'),
+        'HOST': 'localhost',
         'USER': 'root',
         'PASSWORD': config('PASSWORD'),
-        'PORT': config('PORT'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
