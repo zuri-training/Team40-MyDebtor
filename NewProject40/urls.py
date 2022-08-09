@@ -24,18 +24,17 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
 schema_view = get_schema_view(
-   openapi.Info(
-      title="Studebt API",
-      default_version='v1',
-      description="A web based application that helps schools keep track of student's credit history.",
-      terms_of_service="https://www.studebt.com/policies/terms/",
-      contact=openapi.Contact(email="studebt4@gmail.com"),
-      license=openapi.License(name="Studebt License"),
-   ),
-   public=True,
-   permission_classes=[permissions.AllowAny],
+    openapi.Info(
+        title="Studebt API",
+        default_version='v1',
+        description="A web based application that helps schools keep track of student's credit history.",
+        terms_of_service="https://www.studebt.com/policies/terms/",
+        contact=openapi.Contact(email="studebt4@gmail.com"),
+        license=openapi.License(name="Studebt License"),
+    ),
+    public=True,
+    permission_classes=[permissions.AllowAny],
 )
-
 
 
 urlpatterns = [
@@ -47,19 +46,28 @@ urlpatterns = [
     path('__debug__/', include('debug_toolbar.urls')),
     path('', include('core.urls')),
 
-    
-    #Documentation Links
-    
-   # path('swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
-    #Template dir
+    # Documentation Links
+
+    # path('swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('docs/', schema_view.with_ui('swagger',
+         cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc',
+         cache_timeout=0), name='schema-redoc'),
+
+    # Template dir
     path('', TemplateView.as_view(template_name="index.html")),
     path('accounts/', include('allauth.urls')),
     path('logout', LogoutView.as_view()),
+
+    # rest_framework
+    # path('api-auth/', include('rest_framework.urls')),
+
+    # routers
+    # path('api/', include('info_hub.urls')),
 ]
 
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
