@@ -1,6 +1,3 @@
-from django.shortcuts import render
-from djoser.views import TokenCreateView
-
 from rest_framework.viewsets import ModelViewSet
 
 from .models import *

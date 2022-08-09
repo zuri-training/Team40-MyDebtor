@@ -20,6 +20,7 @@ class StudentViewSet(ModelViewSet):
     serializer_class = StudentSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     filterset_fields = ['id', 'reg_number']
+    search_fields = ['first_name', 'last_name', 'reg_number']
 
     def get_queryset(self):
         

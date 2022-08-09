@@ -37,11 +37,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'core',
     'mydebtors',
-
-    'whitenoise',
-
     'info_hub',
-
 
     'corsheaders',
     'debug_toolbar',
@@ -53,14 +49,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
-
-
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-
+    'whitenoise',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -195,34 +184,17 @@ AUTHENTICATION_BACKENDS = [
 
     'django.contrib.auth.backends.ModelBackend',
 
-    # 'my_debtors.backends.StudentBackend',
 ]
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        }
-    }
-}
-
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
     ),
 }
 
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
     'ACCESS_TOKEN_LIFETIME': timedelta(days=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
     'AUTH_TOKEN_CLASSES': (
         'rest_framework_simplejwt.tokens.AccessToken',
     )
@@ -230,10 +202,6 @@ SIMPLE_JWT = {
 }
 
 SITE_NAME = ('Studebt')
-SITE_ID = 3
-
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
 
 DJOSER = {
 
@@ -260,10 +228,10 @@ DJOSER = {
 
     },
 
-    'SESSION_COOKIE_SECURE': False,
-
 
 }
+
+SESSION_COOKIE_SECURE: False
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '868580744114-l3q29kv9kff70gu1mg68tjgskt158f5o.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
