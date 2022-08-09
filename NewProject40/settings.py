@@ -37,11 +37,11 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'core',
     'mydebtors',
-    << << << < HEAD
+
     'whitenoise',
-    == == == =
+
     'info_hub',
-    >>>>>> > 1f150130aad1b8ddabb6316cf045924679f705f4
+
 
     'corsheaders',
     'debug_toolbar',
@@ -85,9 +85,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-
-
-
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -126,9 +123,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': config('NAME'),
-        'HOST': 'localhost',
+        'HOST': config('HOST'),
         'USER': 'root',
         'PASSWORD': config('PASSWORD'),
+        'PORT': config('PORT'),
     }
 }
 
@@ -215,6 +213,9 @@ SOCIALACCOUNT_PROVIDERS = {
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ),
 }
 

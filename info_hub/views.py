@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from rest_framework.viewswets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet
+from rest_framework import permissions
 
 # Create your views here.
 from . import serializers
@@ -7,20 +8,20 @@ from . import models
 
 
 class PostView(ModelViewSet):
-    queryset = Post.objects.all()
+    queryset = models.Post.objects.all()
     serializer_class = serializers.PostSerializer
 
 
 class CommentView(ModelViewSet):
-    queryset = Comment.objects.all()
+    queryset = models.Comment.objects.all()
     serializer_class = serializers.CommentSerializer
 
 
 class ContactView(ModelViewSet):
-    queryset = Contact.objects.all()
+    queryset = models.Contact.objects.all()
     serializer_class = serializers.ContactSerializer
 
 
 class NewsletterView(ModelViewSet):
-    queryset = Newsletter.objects.all
+    queryset = models.Newsletter.objects.all
     serializer_class = serializers.NewsletterSerializer

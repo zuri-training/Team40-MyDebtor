@@ -61,10 +61,10 @@ urlpatterns = [
     path('logout', LogoutView.as_view()),
 
     # rest_framework
-    path('api-auth/', include(rest_framework.urls)),
+    # path('api-auth/', include('rest_framework.urls')),
 
     # routers
-    path('api/', include('info_hub.urls')),
+    # path('api/', include('info_hub.urls')),
 ]
 
 
