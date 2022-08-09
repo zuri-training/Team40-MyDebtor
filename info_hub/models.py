@@ -2,7 +2,16 @@ from django.conf import settings
 from django.core.validators import FileExtensionValidator
 from django.db import models
 
+from django.core.exceptions import ValidationError
+
+
 # Create your models here.
+# To validate newsletter email inputs
+def validate_newsletter_instance(email):
+        if Newsletter.objects.filter(email=email).exists():
+            raise ValidationError('You\'ve already subscribed')
+        pass
+
 
 
 class Post(models.Model):
@@ -31,8 +40,6 @@ class Comment(models.Model):
                              on_delete=models.CASCADE, related_name='comments')
     date_created = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.content
 
 
 class Contact (models.Model):
@@ -48,4 +55,8 @@ class Contact (models.Model):
 
 class Newsletter (models.Model):
 
-    email = models.EmailField()
+    email = models.EmailField(validators=[validate_newsletter_instance])
+    def __str__(self):
+        return self.email
+
+    

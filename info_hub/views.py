@@ -8,21 +8,21 @@ from . import serializers
 from . import models
 
 
-class PostView(ModelViewSet):
+class PostViewSet(ModelViewSet):
     queryset = models.Post.objects.all()
     serializer_class = serializers.PostSerializer
 
 
-class CommentView(ModelViewSet):
+class CommentViewSet(ModelViewSet):
     queryset = models.Comment.objects.all()
     serializer_class = serializers.CommentSerializer
 
 
-class ContactView(ModelViewSet):
+class ContactViewSet(ModelViewSet):
     queryset = models.Contact.objects.all()
     serializer_class = serializers.ContactSerializer
 
 
-class NewsletterView(ModelViewSet):
+class NewsletterViewSet(ModelViewSet):
     queryset = models.Newsletter.objects.all
     serializer_class = serializers.NewsletterSerializer
