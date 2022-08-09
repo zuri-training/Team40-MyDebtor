@@ -1,6 +1,4 @@
 from django.shortcuts import render
-<<<<<<< HEAD
-=======
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import permissions
 
@@ -27,4 +25,3 @@ class ContactView(ModelViewSet):
 class NewsletterView(ModelViewSet):
     queryset = models.Newsletter.objects.all
     serializer_class = serializers.NewsletterSerializer
->>>>>>> 6e907d089368bd25225c235bd01289ce2c97f5d0

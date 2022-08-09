@@ -48,6 +48,8 @@ urlpatterns = [
     path('', include ('mydebtors.urls')),
     path('', include('core.urls')),
 
+    # linking info_hub urls
+    path('', include ('info_hub.urls')),
 
     path('biodata/<int:pk>', BioDataView.as_view()),
 
@@ -68,6 +70,8 @@ urlpatterns = [
 
     # routers
     # path('api/', include('info_hub.urls')),
+
+
 ]
 
 
