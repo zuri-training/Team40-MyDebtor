@@ -26,4 +26,3 @@ class ContactView(ModelViewSet):
 class NewsletterView(ModelViewSet):
     queryset = models.Newsletter.objects.all
     serializer_class = serializers.NewsletterSerializer
-

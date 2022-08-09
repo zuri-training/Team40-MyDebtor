@@ -1,11 +1,10 @@
-from django.urls import path, include
-# from rest_framework.routers import DefaultRouter
+from rest_framework_nested import routers
+from . import views
 
-# from . import views
+router = routers.DefaultRouter()
+router.register('posts', views.PostView)
+comments_router = routers.NestedDefaultRouter(router, 'posts', lookup = 'post')
+comments_router.register('comments', views.CommentView)
 
-# router = DefaultRouter()
-# router.register('posts', views.PostView)
-# router.register('comments', views.CommentView)
-# router.register('contact', views.ContactView)
+urlpatterns = router.urls + comments_router.urls
 
-# urlpatterns = router.urls
