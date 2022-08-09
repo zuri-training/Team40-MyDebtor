@@ -22,7 +22,7 @@ from django.views.generic import TemplateView
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
-
+from mydebtors.views import BioDataView
 schema_view = get_schema_view(
    openapi.Info(
       title="Studebt API",
@@ -45,9 +45,13 @@ urlpatterns = [
     path('auth/', include('djoser.social.urls')),
 
     path('__debug__/', include('debug_toolbar.urls')),
+    
+    path('', include ('mydebtors.urls')),
     path('', include('core.urls')),
 
-    
+    path('biodata/<int:pk>', BioDataView.as_view()),
+
+
     #Documentation Links
     
    # path('swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),

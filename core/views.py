@@ -1,8 +1,11 @@
 from django.shortcuts import render
+from djoser.views import TokenCreateView
+
 from rest_framework.viewsets import ModelViewSet
 
 from .models import *
 from .serializers import *
+
 # Create your views here.
 
 
@@ -14,4 +17,6 @@ class SchoolViewSet (ModelViewSet):
 class PrincipalViewSet (ModelViewSet):
     queryset = Principal.objects.all()
     serializer_class = PrincipalSerializer
+
+
 

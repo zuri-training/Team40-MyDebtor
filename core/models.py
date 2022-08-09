@@ -1,10 +1,12 @@
-from django.db import models
-from django.contrib.auth.models import AbstractUser
-from django.conf import settings
-from .managers import *
-from datetime import datetime
 import os
+from datetime import datetime
+
+from django.conf import settings
+from django.contrib.auth.models import AbstractUser
 from django.core.validators import FileExtensionValidator
+from django.db import models
+
+from .managers import *
 from .validators import validate_file_size
 
 # Create your models here.
@@ -50,8 +52,8 @@ class CustomUser(AbstractUser):
 class School (models.Model):
 
     CATEGORY = ( 
-        ('PRY', 'Primary'),
-        ('SEC', 'Secondary')
+        ('Primary', 'Primary'),
+        ('Secondary', 'Secondary')
     )
 
     # The username should be the school reg. no.

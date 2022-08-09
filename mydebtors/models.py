@@ -56,8 +56,10 @@ class Student (models.Model):
     date_created = models.DateField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
  
-    school = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete= models.CASCADE, related_name='students')
+    school = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete= models.CASCADE, related_name='students')
 
+    def __str__(self) -> str:
+        return f'{self.first_name}---{self.reg_number}'
 
 class Sponsor (models.Model):
     first_name = models.CharField(max_length=255)
@@ -88,12 +90,19 @@ class Debt (models.Model):
 
     ]
 
+    TERM = [
+
+        ('first', '1st Term'),
+        ('second', '2nd Term'),
+        ('third', '3rd Term')
+    ]
+
     id = models.UUIDField(default=uuid4, primary_key=True)
     session = models.CharField(max_length=10)
-    term = models.CharField(max_length=20)
+    term = models.CharField(max_length=20, choices=TERM)
     total_fee = models.DecimalField(max_digits=6, decimal_places=2)
     outstanding_fee = models.DecimalField(max_digits=6, decimal_places=2)
-    category = models.CharField(max_length=255)
+    category = models.CharField(max_length=255, choices=CATEGORY)
     status = models.CharField(max_length=50, choices=STATUS, default='active')
 
     date_created = models.DateTimeField(auto_now_add=True)
