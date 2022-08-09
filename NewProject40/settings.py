@@ -37,6 +37,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'core',
     'mydebtors',
+    'whitenoise',
 
     'corsheaders',
     'debug_toolbar',
