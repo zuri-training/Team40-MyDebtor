@@ -7,8 +7,12 @@ from .views import *
 router = DefaultRouter()
 
 router.register('sponsor', SponsorViewSet )
-router.register('student', StudentViewSet)
+router.register('student', StudentViewSet, basename='student')
 router.register('debt', DebtViewSet)
+router.register('biodata', BioDataViewSet, basename='biodata')
 
 
-urlpatterns = router.urls
+urlpatterns = router.urls 
+
+
+

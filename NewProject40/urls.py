@@ -4,7 +4,6 @@ from django.contrib import admin
 from django.urls import include, path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
-from mydebtors.views import BioDataView
 from rest_framework import permissions
 
 
@@ -36,7 +35,8 @@ urlpatterns = [
     # linking info_hub urls
     path('', include ('info_hub.urls')),
 
-    path('biodata/<int:pk>', BioDataView.as_view()),
+    # path('biodata/<int:pk>', BioDataView.as_view()),
+
 
 
     #Documentation Links
@@ -49,5 +49,4 @@ urlpatterns = [
 
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-                          
+    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
