@@ -58,6 +58,34 @@ class StudentSerializer (serializers.ModelSerializer):
         
         return school.name
 
+
+class ClearedDebtorsSerializer(serializers.ModelSerializer):
+    school = serializers.SerializerMethodField(read_only = True)
+    outstanding_fee = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Student
+        fields = ['id','first_name', 'middle_name', 'last_name', 'student_class', 'passport', 'outstanding_fee','school',] #
+        
+    def get_school (self, student):
+
+        User = get_user_model()
+
+        try:
+            user_obj = User.objects.get(id = student.user.id)
+            school = School.objects.get(user = user_obj)
+        except:
+            return None
+        return school.name
+
+    def get_outstanding_fee(self, student:Student):
+        try:
+            debt = Debt.objects.get(student = student)
+        except Debt.DoesNotExist:
+            return None
+        return debt.outstanding_fee
+
+
 class SponsorSerializer (serializers.ModelSerializer): 
     class Meta:
         model = Sponsor

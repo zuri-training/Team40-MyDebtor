@@ -12,7 +12,14 @@ router.register('debt', DebtViewSet)
 router.register('biodata', BioDataViewSet, basename='biodata')
 
 
-urlpatterns = router.urls 
+urlpatterns =  [
+
+    path('cleared/', cleared_debtors)
+] 
+
+urlpatterns +=  router.urls 
+
+
 
 
 

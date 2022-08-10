@@ -2,7 +2,9 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import permissions
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.viewsets import ModelViewSet
-
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
 from .paginators import StudentPaginator
 from .models import *
 from .serializers import *
@@ -55,3 +57,15 @@ class BioDataViewSet (ModelViewSet):
     http_method_names=['get', 'head', 'options']
     queryset = Student.objects.all().select_related('sponsor').prefetch_related('debts')
     serializer_class = BioDataSerializer
+
+
+
+
+@api_view()
+def cleared_debtors (request):
+    query = Student.objects.filter(debts__status = 'resolved')
+    serializer = ClearedDebtorsSerializer(query, many = True)
+
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+    
