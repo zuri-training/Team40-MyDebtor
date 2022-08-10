@@ -7,7 +7,7 @@ from uuid import uuid4
 from core.validators import validate_file_size  # Dependecy issue to be resolved later
     
 from django.conf import settings
-from django.core.validators import FileExtensionValidator
+from django.core.validators import FileExtensionValidator, MinValueValidator
 from django.db import models
 
 # Create your models here.
@@ -56,7 +56,7 @@ class Student (models.Model):
     date_created = models.DateField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
  
-    school = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete= models.CASCADE, related_name='students')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete= models.CASCADE, related_name='students')
 
     def __str__(self) -> str:
         return f'{self.first_name}---{self.reg_number}'
@@ -100,15 +100,15 @@ class Debt (models.Model):
     id = models.UUIDField(default=uuid4, primary_key=True)
     session = models.CharField(max_length=10)
     term = models.CharField(max_length=20, choices=TERM)
-    total_fee = models.DecimalField(max_digits=6, decimal_places=2)
-    outstanding_fee = models.DecimalField(max_digits=6, decimal_places=2)
+    total_fee = models.DecimalField(max_digits=6, decimal_places=2, validators=[MinValueValidator(1)])
+    outstanding_fee = models.DecimalField(max_digits=6, decimal_places=2, validators=[MinValueValidator(1)])
     category = models.CharField(max_length=255, choices=CATEGORY)
     status = models.CharField(max_length=50, choices=STATUS, default='active')
 
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='debt')
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='debts')
 
 
 class Complaint (models.Model):

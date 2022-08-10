@@ -68,7 +68,7 @@ class School (models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
-    user = models.OneToOneField(USER, on_delete=models.CASCADE)
+    user = models.OneToOneField(USER, on_delete=models.CASCADE, related_name='school')
 
     def __str__(self) -> str:
         return self.name 
