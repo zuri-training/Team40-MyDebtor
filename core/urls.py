@@ -1,7 +1,7 @@
-from rest_framework.routers import DefaultRouter
+from rest_framework import routers
 from .views import *
 
-router = DefaultRouter()
+router = routers.DefaultRouter()
 
 router.register('school', SchoolViewSet)
 router.register('principal', PrincipalViewSet)
