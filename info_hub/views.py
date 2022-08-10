@@ -13,9 +13,11 @@ class PostViewSet(ModelViewSet):
     serializer_class = serializers.PostSerializer
 
 
+
 class CommentViewSet(ModelViewSet):
     queryset = models.Comment.objects.all()
     serializer_class = serializers.CommentSerializer
+
 
 
 class ContactViewSet(ModelViewSet):
