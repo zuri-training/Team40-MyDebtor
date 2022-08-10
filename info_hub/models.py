@@ -42,7 +42,7 @@ class Comment(models.Model):
 
 
 
-class Contact (models.Model):
+class Contact(models.Model):
 
     name = models.CharField(max_length=255)
     email = models.EmailField()
@@ -53,7 +53,7 @@ class Contact (models.Model):
         return self.email
 
 
-class Newsletter (models.Model):
+class Newsletter(models.Model):
 
     email = models.EmailField(validators=[validate_newsletter_instance])
     def __str__(self):
