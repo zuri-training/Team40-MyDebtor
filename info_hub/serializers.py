@@ -3,29 +3,32 @@ from rest_framework import serializers
 
 from .models import *
 
+class AddCommentSerializer (serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ['content']
+
+    def save(self, **kwargs):
+        user = self.context['user']
+        post_id = self.context['post_id']
+
+    
+        self.instance = Comment.objects.create(user = user , post_id = post_id , **self.validated_data)
+ 
+        return self.instance
+
 class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['id','content', 'post', 'user', 'date_created']
+        fields = ['id','content','user', 'date_created']
 
-    def save(self, **kwargs):
-        user = self.context['user']
+    
 
-        self.instane = Post.objects.create(user = user , **self.validated_data)
-
-        return self.instance
-
-class PostSerializer(serializers.ModelSerializer):
-    comments = CommentSerializer(many=True)
-    comment_count = serializers.SerializerMethodField()
-
+class AddPostSerializer (serializers.ModelSerializer):
     class Meta:
-        model = Post
-        fields = ['content', 'attachment', 'user', 'date_created', 'comments','comment_count']
-
-    def get_comment_count(self, obj):
-        return obj.comments.count()
+        model= Post
+        fields = ['content', 'attachment']
 
     def save(self, **kwargs):
         user = self.context['user']
@@ -34,9 +37,22 @@ class PostSerializer(serializers.ModelSerializer):
             raise ValidationError("You are not allowed to make post")
         
         else:
-            self.instane = Post.objects.create(user = user , **self.validated_data)
+            self.instance = Post.objects.create(user = user , **self.validated_data)
 
         return self.instance
+
+
+class PostSerializer(serializers.ModelSerializer):
+    comment_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Post
+        fields = ['id','content', 'attachment', 'user', 'date_created','comment_count']
+
+    def get_comment_count(self, obj):
+        return obj.comments.count()
+
+
 
 
 class ContactSerializer(serializers.ModelSerializer):
@@ -47,7 +63,6 @@ class ContactSerializer(serializers.ModelSerializer):
 
 
 class NewsletterSerializer(serializers.ModelSerializer):
-    #email = serializers.EmailField()
 
     class Meta:
         model = Newsletter

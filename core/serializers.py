@@ -1,9 +1,9 @@
-import email
-from djoser.serializers import UserCreatePasswordRetypeSerializer as RegisterSerializer
-from mydebtors.models import Sponsor
 from django.core.exceptions import ValidationError
-from rest_framework.serializers import ModelSerializer
 from django.db import IntegrityError
+from djoser.serializers import UserCreatePasswordRetypeSerializer as RegisterSerializer
+    
+from mydebtors.models import Sponsor
+from rest_framework.serializers import ModelSerializer
 
 from .models import *
 

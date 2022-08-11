@@ -1,13 +1,15 @@
-from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import SearchFilter, OrderingFilter
-from .models import *
-from .serializers import *
-from djoser.views import TokenCreateView, TokenDestroyView
 from djoser import utils
 from djoser.conf import settings
-from rest_framework.response import Response
+from djoser.views import TokenCreateView, TokenDestroyView
 from rest_framework import status
+from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
+
+from .models import *
+from .serializers import *
+
 # Create your views here.
 
 
