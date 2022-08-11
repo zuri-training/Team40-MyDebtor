@@ -1,24 +1,14 @@
 from rest_framework import permissions
 
-class IsSchool(permissions.BasePermission):
-    edit_methods = ('PUT', 'PATCH')
 
+class IsSchool (permissions.BasePermission):
+    
     def has_permission(self, request, view):
-        if request.user.is_authenticated and request.user.groups.filter(name="School").exists():
-            return True
+        return bool(
+            request.method in permissions.SAFE_METHODS or 
+            request.user and 
+            request.user.is_authenticated and 
+            request.user.groups.filter(name="School").exists()
+            
+            )
 
-    def has_object_permission(self, request, view, obj):
-        if request.user.is_superuser:
-            return True
-
-        if request.method in permissions.SAFE_METHODS:
-            return True
-
-        if obj.author == request.user:
-            return True
-
-        if request.user.is_staff and request.method not in self.edit_methods:
-            return True
-
-         
-        return False
