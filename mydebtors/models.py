@@ -3,6 +3,7 @@ import random
 import string
 from datetime import datetime
 from uuid import uuid4
+from core.models import School
 
 from core.validators import validate_file_size  # Dependecy issue to be resolved later
     
@@ -56,7 +57,7 @@ class Student (models.Model):
     date_created = models.DateField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
  
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete= models.CASCADE, related_name='students')
+    school = models.ForeignKey(School, on_delete= models.CASCADE, related_name='students')
 
     def __str__(self) -> str:
         return f'{self.first_name}---{self.reg_number}'

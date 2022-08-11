@@ -3,7 +3,7 @@ from datetime import datetime
 
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import FileExtensionValidator
+from django.core.validators import FileExtensionValidator, MinLengthValidator
 from django.db import models
 
 from .managers import *
@@ -39,7 +39,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=255, null= True, blank=True)
     last_name = models.CharField(max_length=255, null= True, blank=True)
-    NIN = models.CharField(max_length=11, null=True, blank=True)
+    NIN = models.CharField(max_length=11, validators=[MinLengthValidator(11)], null=True, blank=True)
     
 
 

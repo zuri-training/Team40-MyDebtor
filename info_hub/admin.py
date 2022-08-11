@@ -2,18 +2,18 @@ from django.contrib import admin
 from info_hub.models import *
 
 # Register your models here.
-
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('content', 'attachment', 'user')
+    list_display = ['date_created','user', 'content']
+    list_editable = ['content']
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('content', 'post', 'user', 'date_created')
+    list_display = ['content', 'post', 'user', 'date_created']
 
 class ContactAdmin(admin.ModelAdmin):
-    exclude = ('date',)
+    exclude = ['date']
 
 class NewsletterAdmin(admin.ModelAdmin):
-    list_display = ('email',)
+    list_display = ['email']
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(Comment, CommentAdmin)

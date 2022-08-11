@@ -1,5 +1,4 @@
 from django.conf import settings
-# from django.contrib.auth.models import Group
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import Newsletter
