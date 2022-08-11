@@ -1,8 +1,7 @@
-from rest_framework_nested.routers import DefaultRouter, NestedDefaultRouter
-
-from mydebtors.models import Student
+from rest_framework.routers import DefaultRouter
 from .views import *
 from mydebtors.views import StudentViewSet
+from rest_framework_nested.routers import NestedDefaultRouter
 
 router = DefaultRouter()
 

@@ -1,10 +1,10 @@
 from django.urls import path, include
-from rest_framework_nested.routers import DefaultRouter
+from rest_framework import routers
 from .views import *
 
 
 
-router = DefaultRouter()
+router = routers.DefaultRouter()
 
 router.register('sponsor', SponsorViewSet )
 router.register('student', StudentViewSet, basename='student')
