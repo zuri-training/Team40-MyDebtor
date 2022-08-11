@@ -9,23 +9,34 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ['id','content', 'post', 'user', 'date_created']
 
+    def save(self, **kwargs):
+        user = self.context['user']
+
+        self.instane = Post.objects.create(user = user , **self.validated_data)
+
+        return self.instance
+
 class PostSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True)
     comment_count = serializers.SerializerMethodField()
-
-    def get_comment_count(self, obj):
-        return obj.comments.count()
 
     class Meta:
         model = Post
         fields = ['content', 'attachment', 'user', 'date_created', 'comments','comment_count']
 
-    def create(self, validated_data):
-        comments_data = validated_data.pop('comments')
-        post = Post.objects.create(**validated_data)
-        Comment.objects.create(post=post, **comments_data)
-        return post
+    def get_comment_count(self, obj):
+        return obj.comments.count()
 
+    def save(self, **kwargs):
+        user = self.context['user']
+
+        if user.NIN:
+            raise ValidationError("You are not allowed to make post")
+        
+        else:
+            self.instane = Post.objects.create(user = user , **self.validated_data)
+
+        return self.instance
 
 
 class ContactSerializer(serializers.ModelSerializer):
@@ -36,8 +47,8 @@ class ContactSerializer(serializers.ModelSerializer):
 
 
 class NewsletterSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField()
+    #email = serializers.EmailField()
 
     class Meta:
         model = Newsletter
-        fields = ['email']
+        fields = ['id','email']

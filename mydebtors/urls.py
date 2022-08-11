@@ -1,5 +1,5 @@
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from rest_framework_nested.routers import DefaultRouter
 from .views import *
 
 
@@ -10,6 +10,8 @@ router.register('sponsor', SponsorViewSet )
 router.register('student', StudentViewSet, basename='student')
 router.register('debt', DebtViewSet)
 router.register('biodata', BioDataViewSet, basename='biodata')
+
+
 
 
 urlpatterns =  [

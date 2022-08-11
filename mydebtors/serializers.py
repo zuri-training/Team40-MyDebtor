@@ -1,7 +1,5 @@
-from warnings import catch_warnings
 from rest_framework import serializers
-from django.conf import settings
-from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from core.models import School
 from .models import *
 
@@ -13,8 +11,9 @@ class AddStudentSerializer (serializers.ModelSerializer):
         fields = ['id','reg_number','first_name', 'last_name','middle_name', 'gender', 'student_class', 'passport', 'nationality', 'state', 'address', 'date_of_birth']
 
     def save(self, **kwargs):
-        user = self.context['user']
-        self.instance = Student.objects.create(user = user, **self._validated_data)
+        
+    
+        self.instance = Student.objects.create(school_id = self.context['school_id'], **self._validated_data)
 
         return self.instance
     
@@ -46,17 +45,7 @@ class StudentSerializer (serializers.ModelSerializer):
 
     def get_school (self, student):
 
-        User = get_user_model()
-
-        try:
-            user_obj = User.objects.get(id = student.user.id)
-
-            school = School.objects.get(user = user_obj)
-
-        except:
-            return None
-        
-        return school.name
+        return student.school.name
 
 
 class ClearedDebtorsSerializer(serializers.ModelSerializer):
@@ -65,18 +54,11 @@ class ClearedDebtorsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Student
-        fields = ['id','first_name', 'middle_name', 'last_name', 'student_class', 'passport', 'outstanding_fee','school',] #
+        fields = ['id','first_name', 'middle_name', 'last_name', 'student_class', 'passport', 'outstanding_fee','school'] 
         
     def get_school (self, student):
 
-        User = get_user_model()
-
-        try:
-            user_obj = User.objects.get(id = student.user.id)
-            school = School.objects.get(user = user_obj)
-        except:
-            return None
-        return school.name
+        return student.school.name
 
     def get_outstanding_fee(self, student:Student):
         try:
@@ -107,7 +89,6 @@ class DebtSerializer (serializers.ModelSerializer):
 
 
 class BioDataSerializer (serializers.ModelSerializer):
-    # student = StudentSerializer()
     sponsor = SponsorSerializer()
     debts = DebtSerializer(many = True)
     class Meta:
