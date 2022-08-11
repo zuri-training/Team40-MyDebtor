@@ -1,3 +1,4 @@
+from multiprocessing.spawn import import_main_path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -5,6 +6,7 @@ from django.urls import include, path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
+# from core.views import LoginView
 
 # customize the django admin with Studebt Admin
 admin.site.site_header = 'Studebt Admin'
@@ -28,6 +30,8 @@ urlpatterns = [
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
     path('auth/', include('djoser.social.urls')),
+
+    # path('login/', LoginView.as_view()),
 
     path('__debug__/', include('debug_toolbar.urls')),
     
