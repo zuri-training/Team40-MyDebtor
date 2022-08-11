@@ -13,10 +13,13 @@ from rest_framework import status
 
 # class LoginView (TokenCreateView):
 
+#     serializer_class = settings.SERIALIZERS.token_create
+#     permission_classes = settings.PERMISSIONS.token_create
+
 #     def _action(self, serializer):
 #         token = utils.login_user(self.request, serializer.user)
 #         token_serializer_class = settings.SERIALIZERS.token
-
+#         print("HEllo Dumb Dumb")
 #         return Response(
 #             data=token_serializer_class(token).data, status=status.HTTP_200_OK
 #         )
