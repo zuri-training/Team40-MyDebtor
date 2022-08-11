@@ -1,5 +1,5 @@
 from rest_framework.viewsets import ModelViewSet
-
+from rest_framework import permissions
 # Create your views here.
 
 from . import serializers
@@ -31,8 +31,8 @@ class PostViewSet(ModelViewSet):
 
 
 class CommentViewSet(ModelViewSet):
-    queryset = models.Comment.objects.all()
-    serializer_class = serializers.CommentSerializer
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 class CommentViewSet(ModelViewSet): 
