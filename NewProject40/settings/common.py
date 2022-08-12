@@ -17,19 +17,11 @@ from pathlib import Path
 from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g%u0@r(y@racy6emq_n(shu(g%zmcrs5vu(!pn=8*pm+2=yc28'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -49,7 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
-    'whitenoise',
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -103,19 +95,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'NewProject40.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'team_40',
-        'HOST': '/localhost',
-        'USER': 'root',
-        'PASSWORD': 'Omoniyi1-B',
-        'PORT': 3306,
-    }
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -242,11 +221,12 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
-EMAIL_USERNAME = 'blazingkrane@gmail.com'
-EMAIL_PASSWORD = 'wapdbdztcdcrffzc'
+EMAIL_PORT = 587
+EMAIL_HOST_USERNAME = 'blazingkrane@gmail.com'
+EMAIL_HOST_PASSWORD = 'wapdbdztcdcrffzc'
 
 
-ALLOWED_HOSTS = ['198.211.99.20', 'localhost', '127.0.0.1']
+
 
 
 CORS_ALLOW_ALL_ORIGINS = True
