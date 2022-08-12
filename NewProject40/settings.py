@@ -264,3 +264,5 @@ CORS_ORIGIN_WHITELIST = (
 
        'http://localhost:5000',
 )
+
+APPEND_SLASH=False
