@@ -10,7 +10,7 @@ from core.validators import validate_file_size  # Dependecy issue to be resolved
 from django.conf import settings
 from django.core.validators import FileExtensionValidator, MinValueValidator
 from django.db import models
-
+ 
 # Create your models here.
 
 

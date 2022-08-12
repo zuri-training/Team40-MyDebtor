@@ -1,8 +1,9 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from info_hub.permissions import IsSchool
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework.permissions import *
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -13,9 +14,12 @@ from .paginators import StudentPaginator
 from .serializers import *
 
 # Create your views here.
-
+ 
 
 class StudentViewSet(ModelViewSet):
+
+    permission_classes = [IsSchool]
+    queryset = Student.objects.filter().select_related('school').prefetch_related('debts')
 
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     filterset_fields = ['id', 'reg_number']
@@ -37,6 +41,18 @@ class StudentViewSet(ModelViewSet):
     def get_serializer_context(self):
         return {'school_id': self.kwargs['school_pk']}
     
+    def get_permissions(self):
+
+        if self.action == 'retrieve':
+            self.permission_classes = [IsAuthenticated]
+
+        if self.action in ['list', 'create', 'update', 'partial_update']:
+            self.permission_classes = [IsSchool, IsAdminUser]
+
+        if self.action in ['destroy']:
+            self.permission_classes = [IsAdminUser]
+            
+        return [permission() for permission in self.permission_classes]
 
 
 class SponsorViewSet (ModelViewSet):
@@ -48,10 +64,39 @@ class SponsorViewSet (ModelViewSet):
 
 
 
+
+class DebtViewSet (ModelViewSet):
+    queryset = Debt.objects.all()
+    serializer_class = DebtSerializer
+
+    def get_serializer_class(self):
+        return DebtSerializer
+
+    def get_permissions(self):
+
+        if self.action == 'retrieve':
+            self.permission_classes = [IsAuthenticated]
+
+        if self.action in ['list', 'create', 'update']:
+            self.permission_classes = [IsSchool, IsAdminUser]
+
+        if self.action in ['partial_update', 'destroy']:
+            self.permission_classes = [IsAdminUser]
+
+        return [permission() for permission in self.permission_classes]
+    
+    def get_queryset(self):
+        school = School.objects.get(user = self.request.user)
+        student, created = Student.objects.get_or_create(school = school )
+        
+        return Debt.objects.filter(student = student)
+
+
 class BioDataViewSet (ModelViewSet):
     http_method_names=['get', 'head', 'options']
     queryset = Student.objects.all().select_related('sponsor').prefetch_related('debts')
     serializer_class = BioDataSerializer
+    permission_classes = [IsAuthenticated | IsAdminUser]
 
 
 
@@ -81,24 +126,6 @@ class ComplaintViewSet (ModelViewSet):
         return context
 
 
-class DebtViewSet (ModelViewSet):
-    queryset = Debt.objects.all()
-    serializer_class = DebtSerializer
-    permission_classes = [IsSchool]
-
-    def get_serializer_class(self):
-        return DebtSerializer
-
-    def get_permissions(self):
-        if self.request.method == 'GET':
-            return [IsAuthenticatedOrReadOnly(), IsSchool()]
-        return [IsSchool()]
-    
-    def get_queryset(self):
-        school = School.objects.get(user = self.request.user)
-        student, created = Student.objects.get_or_create(school = school )
-        
-        return Debt.objects.filter(student = student)
 
 
 
@@ -167,7 +194,8 @@ class DebtView (APIView):
 
 #View To retrieve  a list Cleared Debtors in a particualar school
 
-@api_view()
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def cleared_debtors (request):
     school = School.objects.get(user = request.user)
     query = Student.objects.filter(debts__status = 'resolved', school = school)
