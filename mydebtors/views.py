@@ -22,6 +22,7 @@ class StudentViewSet(ModelViewSet):
     filterset_fields = ['id', 'reg_number']
     pagination_class = StudentPaginator
     search_fields = ['first_name', 'last_name', 'reg_number'] 
+    owner = serializers.ReadOnlyField(source='owner.username')
 
     def get_queryset(self):
         
@@ -38,18 +39,18 @@ class StudentViewSet(ModelViewSet):
     def get_serializer_context(self):
         return {'user' : self.request.user, 'school_id': self.kwargs['school_pk']}
     
-    def get_permissions(self):
+    # def get_permissions(self):
 
-        if self.action == 'retrieve':
-            self.permission_classes = [IsAuthenticated]
+    #     if self.action == 'retrieve':
+    #         self.permission_classes = [IsAuthenticated]
 
-        if self.action in ['list', 'create', 'update', 'partial_update']:
-            self.permission_classes = [IsSchool, IsAdminUser]
+    #     if self.action in ['list', 'create', 'update', 'partial_update']:
+    #         self.permission_classes = [IsSchool, IsAdminUser]
 
-        if self.action in ['destroy']:
-            self.permission_classes = [IsAdminUser]
+    #     if self.action in ['destroy']:
+    #         self.permission_classes = [IsAdminUser]
             
-        return [permission() for permission in self.permission_classes]
+    #     return [permission() for permission in self.permission_classes]
 
 
 class SponsorViewSet (ModelViewSet):
@@ -58,11 +59,13 @@ class SponsorViewSet (ModelViewSet):
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     filterset_fields = ['student']
     search_fields  = ['state']
+    owner = serializers.ReadOnlyField(source='owner.username')
 
 
 class DebtViewSet (ModelViewSet):
     queryset = Debt.objects.all()
     serializer_class = DebtSerializer
+    owner = serializers.ReadOnlyField(source='owner.username')
 
     def get_permissions(self):
 
@@ -83,7 +86,7 @@ class BioDataViewSet (ModelViewSet):
     queryset = Student.objects.all().select_related('sponsor').prefetch_related('debts')
     serializer_class = BioDataSerializer
     permission_classes = [IsAuthenticated | IsAdminUser]
-
+    owner = serializers.ReadOnlyField(source='owner.username')
 
 
 
@@ -96,3 +99,5 @@ def cleared_debtors (request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
     
+
+

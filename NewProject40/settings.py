@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'mydebtors',
     'info_hub',
 
-    'corsheaders',
+    # 'corsheaders',
     'debug_toolbar',
     'drf_yasg',
     'django_filters',
@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'whitenoise',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -60,9 +59,12 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
-
+      'corsheaders.middleware.CorsMiddleware',  
     'social_django.middleware.SocialAuthExceptionMiddleware',
+
+    'corsheaders.middleware.CorsPostCsrfMiddleware',
+    'corsheaders.middleware.CorsPostCsrfMiddleware',
+
 
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -111,11 +113,11 @@ WSGI_APPLICATION = 'NewProject40.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': config('NAME'),
-        'HOST': config('HOST'),
+        'NAME': 'team_40',
+        'HOST': '/localhost',
         'USER': 'root',
-        'PASSWORD': config('PASSWORD'),
-        'PORT': config('PORT'),
+        'PASSWORD': 'Omoniyi1-B',
+        'PORT': 3306,
     }
 }
 
@@ -247,9 +249,18 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 2525
-EMAIL_USERNAME = config('EMAIL_USERNAME')
-EMAIL_PASSWORD = config('EMAIL_PASSWORD')
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_USERNAME = 'studebt4@gmail.com'
+EMAIL_PASSWORD = 'STUDEBTproject:'
 
 # USE_TLS = True
+
+ALLOWED_HOSTS=['*']
+CORS_ORIGIN_ALLOW_ALL = True
+ALLOWED_HOSTS = ['198.211.99.20', 'localhost', '127.0.0.1']
+
+CORS_ORIGIN_WHITELIST = (
+
+       'http://localhost:5000',
+)

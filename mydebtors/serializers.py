@@ -5,7 +5,7 @@ from .models import *
 
 class AddStudentSerializer (serializers.ModelSerializer):
     reg_number = serializers.CharField(read_only = True)
-    
+    owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         model = Student
         fields = ['id','reg_number','first_name', 'last_name','middle_name', 'gender', 'student_class', 'passport', 'nationality', 'state', 'address', 'date_of_birth']
@@ -21,7 +21,7 @@ class StudentSerializer (serializers.ModelSerializer):
     outstanding_fee = serializers.SerializerMethodField()
     school = serializers.SerializerMethodField(read_only = True)
     reason_for_debt = serializers.SerializerMethodField()
-
+    owner = serializers.ReadOnlyField(source='owner.username') 
     class Meta:
         model = Student
         fields = ['id','reg_number', 'first_name', 'middle_name', 'last_name', 'student_class', 'passport', 'outstanding_fee','school','reason_for_debt', 'debts',] #
@@ -51,6 +51,7 @@ class StudentSerializer (serializers.ModelSerializer):
 class ClearedDebtorsSerializer(serializers.ModelSerializer):
     school = serializers.SerializerMethodField(read_only = True)
     outstanding_fee = serializers.SerializerMethodField()
+    owner = serializers.ReadOnlyField(source='owner.username') 
 
     class Meta:
         model = Student
@@ -69,6 +70,8 @@ class ClearedDebtorsSerializer(serializers.ModelSerializer):
 
 
 class SponsorSerializer (serializers.ModelSerializer): 
+    owner = serializers.ReadOnlyField(source='owner.username') 
+
     class Meta:
         model = Sponsor
         fields = '__all__'
@@ -77,12 +80,16 @@ class SponsorSerializer (serializers.ModelSerializer):
 
 
 class AddDebtSerializer (serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username') 
+
     class Meta:
         model = Debt
         
 
 class DebtSerializer (serializers.ModelSerializer):
     id = serializers.UUIDField(read_only = True)
+    owner = serializers.ReadOnlyField(source='owner.username') 
+
     class Meta:
         model = Debt
         fields = ['id', 'session', 'term', 'total_fee', 'outstanding_fee', 'category', 'status', 'student', 'date_created', 'date_updated']
@@ -91,6 +98,8 @@ class DebtSerializer (serializers.ModelSerializer):
 class BioDataSerializer (serializers.ModelSerializer):
     sponsor = SponsorSerializer()
     debts = DebtSerializer(many = True)
+    owner = serializers.ReadOnlyField(source='owner.username') 
+
     class Meta:
         model = Student
         fields = ['id','reg_number', 'first_name', 'middle_name', 'last_name', 'student_class','sponsor', 'debts']
