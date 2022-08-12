@@ -41,18 +41,18 @@ class StudentViewSet(ModelViewSet):
     def get_serializer_context(self):
         return {'school_id': self.kwargs['school_pk']}
     
-    def get_permissions(self):
+    # def get_permissions(self):
 
-        if self.action == 'retrieve':
-            self.permission_classes = [IsAuthenticated]
+    #     if self.action == 'retrieve':
+    #         self.permission_classes = [IsAuthenticated]
 
-        if self.action in ['list', 'create', 'update', 'partial_update']:
-            self.permission_classes = [IsSchool, IsAdminUser]
+    #     if self.action in ['list', 'create', 'update', 'partial_update']:
+    #         self.permission_classes = [IsSchool, IsAdminUser]
 
-        if self.action in ['destroy']:
-            self.permission_classes = [IsAdminUser]
+    #     if self.action in ['destroy']:
+    #         self.permission_classes = [IsAdminUser]
             
-        return [permission() for permission in self.permission_classes]
+    #     return [permission() for permission in self.permission_classes]
 
 
 class SponsorViewSet (ModelViewSet):
@@ -72,18 +72,18 @@ class DebtViewSet (ModelViewSet):
     def get_serializer_class(self):
         return DebtSerializer
 
-    def get_permissions(self):
+    # def get_permissions(self):
 
-        if self.action == 'retrieve':
-            self.permission_classes = [IsAuthenticated]
+    #     if self.action == 'retrieve':
+    #         self.permission_classes = [IsAuthenticated]
 
-        if self.action in ['list', 'create', 'update']:
-            self.permission_classes = [IsSchool, IsAdminUser]
+    #     if self.action in ['list', 'create', 'update']:
+    #         self.permission_classes = [IsSchool, IsAdminUser]
 
-        if self.action in ['partial_update', 'destroy']:
-            self.permission_classes = [IsAdminUser]
+    #     if self.action in ['partial_update', 'destroy']:
+    #         self.permission_classes = [IsAdminUser]
 
-        return [permission() for permission in self.permission_classes]
+    #     return [permission() for permission in self.permission_classes]
     
     def get_queryset(self):
         school = School.objects.get(user = self.request.user)

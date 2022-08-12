@@ -1,13 +1,12 @@
-from django.urls import path, include
+from django.urls import path
 from rest_framework import routers
-from .views import *
 
+from .views import *
 
 
 router = routers.DefaultRouter()
 
 router.register('sponsor', SponsorViewSet )
-router.register('students', StudentViewSet, basename='students')
 router.register('biodata', BioDataViewSet, basename='biodata')
 router.register('contend', ComplaintViewSet, basename='complaint')
 router.register('debt', DebtViewSet)
