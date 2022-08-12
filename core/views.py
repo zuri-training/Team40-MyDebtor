@@ -56,11 +56,16 @@ class SchoolViewSet (ModelViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
+    def get_serializer_context(self):
+        return {'user': self.request.user}
     
 
 class PrincipalViewSet (ModelViewSet):
     queryset = Principal.objects.all()
     serializer_class = PrincipalSerializer
 
+    def get_serializer_context(self):
+        return {'user': self.request.user}
+    
 
 

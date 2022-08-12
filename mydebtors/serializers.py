@@ -73,12 +73,6 @@ class SponsorSerializer (serializers.ModelSerializer):
         model = Sponsor
         fields = '__all__'
 
-
-
-
-class AddDebtSerializer (serializers.ModelSerializer):
-    class Meta:
-        model = Debt
         
 
 class DebtSerializer (serializers.ModelSerializer):
@@ -86,6 +80,7 @@ class DebtSerializer (serializers.ModelSerializer):
     class Meta:
         model = Debt
         fields = ['id', 'session', 'term', 'total_fee', 'outstanding_fee', 'category', 'status', 'student', 'date_created', 'date_updated']
+
 
 
 class BioDataSerializer (serializers.ModelSerializer):
@@ -96,3 +91,20 @@ class BioDataSerializer (serializers.ModelSerializer):
         fields = ['id','reg_number', 'first_name', 'middle_name', 'last_name', 'student_class','sponsor', 'debts']
         
 
+
+class MakeComplaintSerializer (serializers.ModelSerializer):
+    class Meta:
+        model = Complaint
+        fields = ['description', 'proof']
+
+class ComplaintSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Complaint
+        fields = ['id', 'description', 'proof', 'debt', 'school', 'user']
+
+    def save(self, **kwargs):
+        debt = self.context['debt']
+        user = self.context['user']
+        school = self.context['school']
+
+        self.instance = Complaint.objects.create(user = user,debt = debt, school = school, **self.validated_data )
