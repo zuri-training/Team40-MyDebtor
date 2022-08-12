@@ -25,7 +25,6 @@ class StudentViewSet(ModelViewSet):
     filterset_fields = ['id', 'reg_number']
     pagination_class = StudentPaginator
     search_fields = ['first_name', 'last_name', 'reg_number'] 
-    owner = serializers.ReadOnlyField(source='owner.username')
 
     def get_queryset(self):
         
@@ -62,7 +61,7 @@ class SponsorViewSet (ModelViewSet):
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     filterset_fields = ['student']
     search_fields  = ['state']
-    owner = serializers.ReadOnlyField(source='owner.username')
+
 
 
 
@@ -70,7 +69,6 @@ class SponsorViewSet (ModelViewSet):
 class DebtViewSet (ModelViewSet):
     queryset = Debt.objects.all()
     serializer_class = DebtSerializer
-    owner = serializers.ReadOnlyField(source='owner.username')
 
     def get_serializer_class(self):
         return DebtSerializer
@@ -100,7 +98,6 @@ class BioDataViewSet (ModelViewSet):
     queryset = Student.objects.all().select_related('sponsor').prefetch_related('debts')
     serializer_class = BioDataSerializer
     permission_classes = [IsAuthenticated | IsAdminUser]
-    owner = serializers.ReadOnlyField(source='owner.username')
 
 
 class ComplaintViewSet (ModelViewSet):

@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'mydebtors',
     'info_hub',
 
-    # 'corsheaders',
+    'corsheaders',
     'debug_toolbar',
     'drf_yasg',
     'django_filters',
@@ -59,7 +59,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-      'corsheaders.middleware.CorsMiddleware',  
+
+    'corsheaders.middleware.CorsMiddleware',  
     'social_django.middleware.SocialAuthExceptionMiddleware',
 
     'corsheaders.middleware.CorsPostCsrfMiddleware',
@@ -144,11 +145,6 @@ INTERNAL_IPS = [
 
     "127.0.0.1",
 
-]
-
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5500',
-    'http://127.0.0.1:5500'
 ]
 
 # Internationalization
@@ -251,18 +247,13 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
-EMAIL_USERNAME = 'studebt4@gmail.com'
-EMAIL_PASSWORD = 'STUDEBTproject:'
+EMAIL_USERNAME = 'blazingkrane@gmail.com'
+EMAIL_PASSWORD = 'wapdbdztcdcrffzc'
 
-# USE_TLS = True
 
-ALLOWED_HOSTS=['*']
-CORS_ORIGIN_ALLOW_ALL = True
 ALLOWED_HOSTS = ['198.211.99.20', 'localhost', '127.0.0.1']
 
-CORS_ORIGIN_WHITELIST = (
 
-       'http://localhost:5000',
-)
+CORS_ALLOW_ALL_ORIGINS = True
 
 APPEND_SLASH=False
