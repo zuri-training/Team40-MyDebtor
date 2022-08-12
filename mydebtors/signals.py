@@ -13,7 +13,7 @@ def send_notification_email(instance, created, **kwargs):
 
         school_id = instance.student.school.id
 
-        school = School.objects.get(user_id = school_id)
+        school = School.objects.get(id = school_id)
 
 
         BaseEmailMessage(context={'student': student, 'school': school.name},template_name= 'email/notification.html',).send(to=[instance.email])

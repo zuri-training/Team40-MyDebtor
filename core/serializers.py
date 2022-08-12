@@ -3,7 +3,7 @@ from django.db import IntegrityError
 from djoser.serializers import UserCreatePasswordRetypeSerializer as RegisterSerializer
     
 from mydebtors.models import Sponsor
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers 
 
 from .models import *
 
@@ -27,19 +27,38 @@ class CustomUserCreateSerializer (RegisterSerializer):
         
 
 
-class SchoolSerializer (ModelSerializer):
 
+class SchoolSerializer (serializers.ModelSerializer):
+    #user = serializers.ReadOnlyField()
     class Meta:
         model = School
         fields = ['id', 'reg_number', 'name',
-                  'category', 'state', 'LGA', 'logo', 'address', 'user']
+                  'category', 'state', 'LGA', 'logo', 'address']
 
+    def save(self, **kwargs):
 
-class PrincipalSerializer (ModelSerializer):
+        user = self.context['user']
+
+        self.instance = School.objects.create(user = user, **self.validated_data)
+
+        return self.instance
+
+ 
+class PrincipalSerializer (serializers.ModelSerializer):
+    #user = serializers.IntegerField(read_only =True)
     class Meta:
         model = Principal
         fields = ['id','name','gender','date_of_birth','address',
-                    'id_type', 'id_number','CAC','letter','id_card','user']
+                    'id_type', 'id_number','CAC','letter','id_card']
+
+
+    def save(self, **kwargs):
+
+        user = self.context['user']
+
+        self.instance = Principal.objects.create(user = user, **self.validated_data)
+
+        return self.instance
 
 
 

@@ -127,4 +127,7 @@ class Complaint (models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
 
     debt = models.ForeignKey(Debt, on_delete=models.CASCADE, related_name='complaints')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='complaints')
+    school = models.ForeignKey(School, on_delete=models.CASCADE, related_name= 'complaints')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='complaints') # The Person making the complaints
+
+

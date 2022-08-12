@@ -1,22 +1,24 @@
-from django.urls import path, include
+from django.urls import path
 from rest_framework import routers
-from .views import *
 
+from .views import *
 
 
 router = routers.DefaultRouter()
 
 router.register('sponsor', SponsorViewSet )
-router.register('student', StudentViewSet, basename='student')
-router.register('debt', DebtViewSet)
 router.register('biodata', BioDataViewSet, basename='biodata')
+router.register('contend', ComplaintViewSet, basename='complaint')
+router.register('debt', DebtViewSet)
 
 
 
 
 urlpatterns =  [
 
-    path('cleared/', cleared_debtors)
+    path('cleared/', cleared_debtors),
+
+    path('debt/alt/', DebtView.as_view())
 ] 
 
 urlpatterns +=  router.urls 
