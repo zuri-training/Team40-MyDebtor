@@ -1,9 +1,9 @@
-from rest_framework.routers import DefaultRouter
+from rest_framework import routers
 from .views import *
 from mydebtors.views import StudentViewSet
 from rest_framework_nested.routers import NestedDefaultRouter
 
-router = DefaultRouter()
+router = routers.DefaultRouter()
 
 router.register('school', SchoolViewSet)
 router.register('principal', PrincipalViewSet)
