@@ -42,7 +42,7 @@ class SchoolViewSet (ModelViewSet):
 
     @action(detail=False, methods=['GET', 'PUT'], permission_classes= [IsAuthenticated])
     def me(self, request):
-        school, created = School.objects.get_or_create(user = request.user)
+        school = School.objects.get(user = request.user)
 
         if request.method == 'GET':
             serializer = SchoolSerializer(school)
@@ -55,9 +55,6 @@ class SchoolViewSet (ModelViewSet):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
-
-    def get_serializer_context(self):
-        return {'user': self.request.user}
     
 
 class PrincipalViewSet (ModelViewSet):

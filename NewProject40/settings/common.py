@@ -218,12 +218,10 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USERNAME = 'blazingkrane@gmail.com'
-EMAIL_HOST_PASSWORD = 'wapdbdztcdcrffzc'
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = '617e747e2afc2c'
+EMAIL_HOST_PASSWORD = 'e99890b04db43b'
+EMAIL_PORT = '2525'
 
 
 

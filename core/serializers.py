@@ -35,14 +35,6 @@ class SchoolSerializer (serializers.ModelSerializer):
         fields = ['id', 'reg_number', 'name',
                   'category', 'state', 'LGA', 'logo', 'address']
 
-    def save(self, **kwargs):
-
-        user = self.context['user']
-
-        self.instance = School.objects.create(user = user, **self.validated_data)
-
-        return self.instance
-
  
 class PrincipalSerializer (serializers.ModelSerializer):
     #user = serializers.IntegerField(read_only =True)
