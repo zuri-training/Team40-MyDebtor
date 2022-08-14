@@ -33,5 +33,5 @@ def add_user_to_group(instance, created, sender, **kwargs):
 def create_school (instance, created, **kwargs):
     if created:
 
-        if not instance.NIN == "":
+        if instance.NIN == "":
             School.objects.create(user = instance)
