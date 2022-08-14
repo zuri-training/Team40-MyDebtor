@@ -71,6 +71,7 @@ class Sponsor (models.Model):
     phone = models.CharField(max_length=11)
     state = models.CharField(max_length=255)
     address = models.CharField(max_length=550)
+    NIN = models.CharField(max_length=11)
 
     student = models.OneToOneField(Student, on_delete=models.CASCADE, related_name='sponsor')
 

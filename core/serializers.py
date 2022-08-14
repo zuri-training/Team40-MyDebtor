@@ -1,8 +1,9 @@
+from re import S
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from djoser.serializers import UserCreatePasswordRetypeSerializer as RegisterSerializer
     
-from mydebtors.models import Sponsor
+from mydebtors.models import Debt, Sponsor, Student
 from rest_framework import serializers 
 
 from .models import *
@@ -29,11 +30,29 @@ class CustomUserCreateSerializer (RegisterSerializer):
 
 
 class SchoolSerializer (serializers.ModelSerializer):
-    #user = serializers.ReadOnlyField()
+    debtors = serializers.SerializerMethodField()
+    cleared_debtors = serializers.SerializerMethodField()
+    contenders = serializers.SerializerMethodField()
+
+
     class Meta:
         model = School
         fields = ['id', 'reg_number', 'name',
-                  'category', 'state', 'LGA', 'logo', 'address']
+                  'category', 'state', 'LGA', 'logo', 'address', 'debtors', 'cleared_debtors', 'contenders']
+
+    def get_debtors(self, school):
+        return school.students.count()
+
+    def get_cleared_debtors(self, school):
+        cleared = Student.objects.filter(debts__status = 'resolved', school = school)
+        return cleared.count()
+    
+    def get_contenders(self, school):
+        return school.complaints.count()
+
+
+    
+
 
  
 class PrincipalSerializer (serializers.ModelSerializer):

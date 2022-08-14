@@ -22,6 +22,8 @@ class PostViewSet(ModelViewSet):
         if self.request.method == 'POST':
             return AddPostSerializer
         return PostSerializer
+    def get_serializer_context(self):
+        return {'request': self.request}
 
         
 

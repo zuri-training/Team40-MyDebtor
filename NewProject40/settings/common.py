@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'core',
     'mydebtors',
     'info_hub',
+    'likes',
 
     'corsheaders',
     'debug_toolbar',
@@ -229,4 +230,3 @@ EMAIL_PORT = '2525'
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-APPEND_SLASH=False

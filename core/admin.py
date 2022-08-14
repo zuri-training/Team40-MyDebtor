@@ -4,3 +4,5 @@ from .models import School, Principal, CustomUser
 # Register your models here.
 # admin.site.register(School)
 admin.site.register(CustomUser) 
+admin.site.register(School)
+admin.site.register(Principal)

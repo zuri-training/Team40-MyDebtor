@@ -3,8 +3,8 @@ from info_hub.permissions import IsSchool
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.filters import OrderingFilter, SearchFilter
-from rest_framework.permissions import *
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import (IsAdminUser, IsAuthenticated,
+                                        IsAuthenticatedOrReadOnly)
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
@@ -19,7 +19,7 @@ from .serializers import *
 class StudentViewSet(ModelViewSet):
 
     permission_classes = [IsSchool]
-    queryset = Student.objects.filter().select_related('school').prefetch_related('debts')
+    queryset = Student.objects.all().order_by('-date_created').select_related('school').prefetch_related('debts')
 
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     filterset_fields = ['id', 'reg_number']
@@ -134,7 +134,7 @@ class ComplaintViewSet (ModelViewSet):
 
 class DebtView (APIView):
 
-        
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
     

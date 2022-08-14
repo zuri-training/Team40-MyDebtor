@@ -16,9 +16,9 @@ router.register('debt', DebtViewSet)
 
 urlpatterns =  [
 
-    path('cleared/', cleared_debtors),
+    path('cleared', cleared_debtors),
 
-    path('debt/alt/', DebtView.as_view())
+    path('mydebt', DebtView.as_view())
 ] 
 
 urlpatterns +=  router.urls 

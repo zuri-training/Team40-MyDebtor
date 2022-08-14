@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from ..likes.models import LikedItem
+
 
 from .models import *
 
@@ -34,7 +36,7 @@ class AddPostSerializer (serializers.ModelSerializer):
         user = self.context['user']
 
         if user.NIN:
-            raise ValidationError("You are not allowed to make post")
+            raise serializers.ValidationError("You are not allowed to make post")
         
         else:
             self.instance = Post.objects.create(user = user , **self.validated_data)
@@ -44,15 +46,21 @@ class AddPostSerializer (serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     comment_count = serializers.SerializerMethodField()
-
+    school_name = serializers.SerializerMethodField()
+    school_logo = serializers.SerializerMethodField()
     class Meta:
         model = Post
-        fields = ['id','content', 'attachment', 'user', 'date_created','comment_count']
+        fields = ['id','content', 'attachment', 'user', 'date_created','comment_count', 'school_name', 'school_logo']
 
-    def get_comment_count(self, obj):
-        return obj.comments.count()
-
-
+    def get_comment_count(self, post):
+        return post.comments.count()
+    
+    def get_school_name(self, post):
+        return post.user.school.name 
+    
+    def get_school_logo(self, post):
+       return self.context['request'].build_absolute_uri(post.user.school.logo.url)
+         
 
 
 class ContactSerializer(serializers.ModelSerializer):
@@ -67,3 +75,14 @@ class NewsletterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Newsletter
         fields = ['id','email']
+
+
+
+class LikeSerializer (serializers.ModelSerializer):
+
+    class Meta:
+        model = LikedItem
+        fields = '__all__'
+
+
+    
