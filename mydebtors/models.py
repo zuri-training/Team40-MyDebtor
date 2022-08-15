@@ -10,7 +10,6 @@ from core.validators import validate_file_size  # Dependecy issue to be resolved
 from django.conf import settings
 from django.core.validators import FileExtensionValidator, MinValueValidator
 from django.db import models
- 
 # Create your models here.
 
 
@@ -111,6 +110,7 @@ class Debt (models.Model):
     date_updated = models.DateTimeField(auto_now=True)
 
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='debts')
+    school = models.ForeignKey(School, on_delete=models.CASCADE, related_name='debts')
 
 
 class Complaint (models.Model):

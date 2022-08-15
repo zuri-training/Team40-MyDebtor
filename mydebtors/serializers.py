@@ -1,3 +1,4 @@
+import sched
 from rest_framework import serializers
 from django.core.exceptions import ValidationError
 from core.models import School
@@ -97,10 +98,18 @@ class SponsorSerializer (serializers.ModelSerializer):
 
 
 
-class AddDebtSerializer (serializers.ModelSerializer):
+class AddDebtorSerializer (serializers.ModelSerializer):
     class Meta:
         model = Debt
-        
+        fields = ['']
+
+    def save(self, **kwargs):
+        user = self.context['user']
+        school = School.objects.get(user = user)
+
+        self.instance = Debt.objects.create(school = school, **self.validated_data)  
+
+        return self.instance      
 
 class DebtSerializer (serializers.ModelSerializer):
     id = serializers.UUIDField(read_only = True)

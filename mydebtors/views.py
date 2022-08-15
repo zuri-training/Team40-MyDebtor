@@ -1,3 +1,4 @@
+from urllib import request
 from django_filters.rest_framework import DjangoFilterBackend
 from info_hub.permissions import IsSchool
 from rest_framework import status
@@ -63,15 +64,28 @@ class SponsorViewSet (ModelViewSet):
     search_fields  = ['state']
 
 
-
-
-
 class DebtViewSet (ModelViewSet):
+
     queryset = Debt.objects.all()
     serializer_class = DebtSerializer
 
     def get_serializer_class(self):
+        if self.request.method == 'POST':
+            AddDebtorSerializer
         return DebtSerializer
+
+
+    def get_queryset(self):
+        if self.request.user.groups.filter(name ="School"):
+
+            school = School.objects.get(user = self.request.user)
+        
+        return Debt.objects.filter(school = school)
+
+
+    def get_serializer_context(self):
+        return {'user': self.request.user}
+
 
     # def get_permissions(self):
 
@@ -86,12 +100,6 @@ class DebtViewSet (ModelViewSet):
 
     #     return [permission() for permission in self.permission_classes]
     
-    def get_queryset(self):
-        school = School.objects.get(user = self.request.user)
-        student, created = Student.objects.get_or_create(school = school )
-        
-        return Debt.objects.filter(student = student)
-
 
 class BioDataViewSet (ModelViewSet):
     http_method_names=['get', 'head', 'options']
@@ -124,9 +132,6 @@ class ComplaintViewSet (ModelViewSet):
                     
                     }
         return context
-
-
-
 
 
 
