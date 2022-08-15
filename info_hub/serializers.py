@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ..likes.models import LikedItem
+from likes.models import LikedItem
 
 
 from .models import *

@@ -97,7 +97,7 @@ class BioDataViewSet (ModelViewSet):
     http_method_names=['get', 'head', 'options']
     queryset = Student.objects.all().select_related('sponsor').prefetch_related('debts')
     serializer_class = BioDataSerializer
-    permission_classes = [IsAuthenticated | IsAdminUser]
+    permission_classes = [IsAuthenticated, IsAdminUser]
 
 
 class ComplaintViewSet (ModelViewSet):
