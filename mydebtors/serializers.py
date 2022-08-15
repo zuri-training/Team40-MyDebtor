@@ -58,12 +58,16 @@ class StudentSerializer (serializers.ModelSerializer):
         return student.school.name
     
     def get_sponsor_name(self, student):
+        if student.sponsor.first_name is not None:
+            return student.sponsor.first_name+" "+ student.sponsor.last_name
+        return None
 
-        return student.sponsor.first_name+" "+ student.sponsor.last_name
     
     def get_sponsor_NIN(self, student):
-
-        return student.sponsor.NIN
+        if student.sponsor.NIN is not None:
+            return student.sponsor.NIN
+            
+        return None
 
 
 
