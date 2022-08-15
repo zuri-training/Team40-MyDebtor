@@ -65,10 +65,8 @@ class StudentSerializer (serializers.ModelSerializer):
     
     def get_sponsor_NIN(self, student):
         if student.sponsor.NIN is not None:
-            return student.sponsor.NIN
-            
+            return student.sponsor.NIN     
         return None
-
 
 
 class ClearedDebtorsSerializer(serializers.ModelSerializer):
