@@ -5,6 +5,7 @@ __pycache__/
 /static/
 /staticfiles/
 /media/
+.idea
 # C extensions
 *.so
 

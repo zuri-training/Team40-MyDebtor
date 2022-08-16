@@ -1,9 +1,8 @@
+from likes.models import LikedItem
 from rest_framework import serializers
 
-from likes.models import LikedItem
-
-
 from .models import *
+
 
 class AddCommentSerializer (serializers.ModelSerializer):
     class Meta:
@@ -41,7 +40,7 @@ class AddPostSerializer (serializers.ModelSerializer):
         else:
             self.instance = Post.objects.create(user = user , **self.validated_data)
 
-        return self.instance
+            return self.instance
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -53,10 +52,14 @@ class PostSerializer(serializers.ModelSerializer):
         fields = ['id','content', 'attachment', 'user', 'date_created','comment_count', 'school_name', 'school_logo']
 
     def get_comment_count(self, post):
-        return post.comments.count()
+        if post.comments:
+            return post.comments.count()
+        return None
     
     def get_school_name(self, post):
-        return post.user.school.name 
+        if post.user.school.name:
+            return post.user.school.name 
+        return None
     
     def get_school_logo(self, post):
        return self.context['request'].build_absolute_uri(post.user.school.logo.url)

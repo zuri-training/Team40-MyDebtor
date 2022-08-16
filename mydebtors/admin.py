@@ -13,3 +13,6 @@ admin.site.register(Student, StudentAdmin)
 admin.site.register(Sponsor)
 
 admin.site.register(Debt)  
+
+def hello():
+    pass
