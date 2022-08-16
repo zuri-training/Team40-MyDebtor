@@ -55,7 +55,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
 
     "corsheaders.middleware.CorsMiddleware",
-    'social_django.middleware.SocialAuthExceptionMiddleware',
+    # 'social_django.middleware.SocialAuthExceptionMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -83,8 +83,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
 
-                'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
+                # 'social_django.context_processors.backends',
+                # 'social_django.context_processors.login_redirect',
 
 
 
@@ -157,7 +157,7 @@ AUTH_USER_MODEL = 'core.CustomUser'
 
 AUTHENTICATION_BACKENDS = [
 
-    'social_core.backends.google.GoogleOAuth2',
+    # 'social_core.backends.google.GoogleOAuth2',
 
     'django.contrib.auth.backends.ModelBackend',
 
@@ -197,8 +197,8 @@ DJOSER = {
     'LOGOUT_ON_PASSWORD_CHANGE': True,
 
     'SEND_CONFIRMATION_EMAIL': True,
-    'SOCIAL_AUTH_TOKEN_STRATEGY': 'djoser.social.token.jwt.TokenStrategy',
-    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ['http://localhost:8000'],
+    # 'SOCIAL_AUTH_TOKEN_STRATEGY': 'djoser.social.token.jwt.TokenStrategy',
+    # 'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ['http://localhost:8000'],
 
     'SERIALIZERS': {
 
@@ -211,12 +211,12 @@ DJOSER = {
 
 SESSION_COOKIE_SECURE: False
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '868580744114-l3q29kv9kff70gu1mg68tjgskt158f5o.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['https://www.googleapis.com/auth/userinfo.email',
-                                   'https://www.googleapis.com/auth/userinfo.profile', 'openid']
+# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '868580744114-l3q29kv9kff70gu1mg68tjgskt158f5o.apps.googleusercontent.com'
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['https://www.googleapis.com/auth/userinfo.email',
+#                                    'https://www.googleapis.com/auth/userinfo.profile', 'openid']
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
+# SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 
 
 # SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ['state']
