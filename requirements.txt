@@ -53,6 +53,7 @@ Pillow==9.2.0
 prometheus-client==0.14.1
 prompt-toolkit==3.0.30
 psutil==5.9.1
+psycopg2==2.9.3
 pycparser==2.21
 PyJWT==2.4.0
 pyparsing==3.0.9
