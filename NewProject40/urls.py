@@ -25,6 +25,8 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
+    path('', include('core.urls')),
+
     path('admin/', admin.site.urls),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
@@ -38,7 +40,6 @@ urlpatterns = [
 
     # linking info_hub urls
     path('', include ('info_hub.urls')),
-    path('', include('core.urls')),
 
 
     # path('biodata/<int:pk>', BioDataView.as_view()),
