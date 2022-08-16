@@ -25,6 +25,7 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
+    path('', include('core.urls')),
     path('admin/', admin.site.urls),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
@@ -35,7 +36,6 @@ urlpatterns = [
     path('__debug__/', include('debug_toolbar.urls')),
     
     path('', include ('mydebtors.urls')),
-    path('', include('core.urls')),
 
     # linking info_hub urls
     path('', include ('info_hub.urls')),
