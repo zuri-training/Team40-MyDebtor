@@ -101,7 +101,7 @@ class SponsorSerializer (serializers.ModelSerializer):
 class AddDebtorSerializer (serializers.ModelSerializer):
     class Meta:
         model = Debt
-        fields = ['']
+        fields = ['session', 'term', 'total_fee', 'outstanding_fee', 'category','student']
 
     def save(self, **kwargs):
         user = self.context['user']
