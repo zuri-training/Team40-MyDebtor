@@ -14,33 +14,32 @@ from .paginators import StudentPaginator
 from .serializers import *
 
 # Create your views here.
- 
+
 
 class StudentViewSet(ModelViewSet):
 
     permission_classes = [IsSchool]
-    queryset = Student.objects.all().order_by('-date_created').select_related('school').prefetch_related('debts')
+    queryset = Student.objects.all().order_by(
+        '-date_created').select_related('school').prefetch_related('debts')
 
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     filterset_fields = ['id', 'reg_number']
     pagination_class = StudentPaginator
-    search_fields = ['first_name', 'last_name', 'reg_number'] 
+    search_fields = ['first_name', 'last_name', 'reg_number']
 
     def get_queryset(self):
-        
-        return Student.objects.filter(school_id = self.kwargs['school_pk']).select_related('school').prefetch_related('debts')
-    
+
+        return Student.objects.filter(school_id=self.kwargs['school_pk']).select_related('school').prefetch_related('debts')
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
             return StudentSerializer
-            
-        return AddStudentSerializer
 
+        return AddStudentSerializer
 
     def get_serializer_context(self):
         return {'school_id': self.kwargs['school_pk']}
-    
+
     # def get_permissions(self):
 
     #     if self.action == 'retrieve':
@@ -51,7 +50,7 @@ class StudentViewSet(ModelViewSet):
 
     #     if self.action in ['destroy']:
     #         self.permission_classes = [IsAdminUser]
-            
+
     #     return [permission() for permission in self.permission_classes]
 
 
@@ -60,7 +59,7 @@ class SponsorViewSet (ModelViewSet):
     serializer_class = SponsorSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     filterset_fields = ['student']
-    search_fields  = ['state']
+    search_fields = ['state']
 
 
 class DebtViewSet (ModelViewSet):
@@ -73,21 +72,17 @@ class DebtViewSet (ModelViewSet):
             return AddDebtorSerializer
         return DebtSerializer
 
-
     def get_queryset(self):
-        if self.request.user.groups.filter(name ="School"):
+        if self.request.user.groups.filter(name="School"):
 
-            school = School.objects.get(user = self.request.user)
-        
-            return Debt.objects.filter(school = school)
-        
+            school = School.objects.get(user=self.request.user)
+
+            return Debt.objects.filter(school=school)
+
         return None
-
-
 
     def get_serializer_context(self):
         return {'user': self.request.user}
-
 
     # def get_permissions(self):
 
@@ -101,11 +96,13 @@ class DebtViewSet (ModelViewSet):
     #         self.permission_classes = [IsAdminUser]
 
     #     return [permission() for permission in self.permission_classes]
-    
+
 
 class BioDataViewSet (ModelViewSet):
-    http_method_names=['get', 'head', 'options']
-    queryset = Student.objects.all().select_related('sponsor').prefetch_related('debts')
+    http_method_names = ['get', 'head', 'options']
+    queryset = Student.objects.all(). \
+        select_related('sponsor'). \
+        prefetch_related('debts')
     serializer_class = BioDataSerializer
     permission_classes = [IsAuthenticated]
 
@@ -116,7 +113,7 @@ class ComplaintViewSet (ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return Complaint.objects.filter(user = self.request.user)
+            return Complaint.objects.filter(user=self.request.user)
         return None
 
     def get_serializer_class(self):
@@ -125,47 +122,48 @@ class ComplaintViewSet (ModelViewSet):
         return ComplaintSerializer
 
     def get_serializer_context(self):
-        if self.request.user.groups.filter(name ="Parent"):
+        if self.request.user.groups.filter(name="Parent"):
 
-            sponsor = Sponsor.objects.filter(email = self.request.user.email).first()
+            sponsor = Sponsor.objects.filter(
+                email=self.request.user.email).first()
 
-            student = Student.objects.filter(sponsor__id = sponsor.id ).first()
-            
+            student = Student.objects.filter(sponsor__id=sponsor.id).first()
+
             if student:
-                debt = Debt.objects.get(student_id = student.id)
+                debt = Debt.objects.get(student_id=student.id)
 
-            context={
-                        'debt': debt,
-                        'user' : self.request.user,
-                        'school': student.school
-                        
-                        }
+            context = {
+                'debt': debt,
+                'user': self.request.user,
+                'school': student.school
+
+            }
             return context
 
 
-
-#Alternative View And EndPoint
+# Alternative View And EndPoint
 
 class DebtView (APIView):
 
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-    
-    # Debt View For School 
+
+        # Debt View For School
 
         if request.user.groups.filter(name="School").exists():
-            students = Student.objects.filter(school_id = request.user.school)
+            students = Student.objects.filter(school_id=request.user.school)
 
-            serializer = StudentSerializer(students, many = True)
+            serializer = StudentSerializer(students, many=True)
 
             return Response(serializer.data, status=status.HTTP_200_OK)
 
     # Debt View For Sponsor/Guardian/Parent
-     
-        sponsor = Sponsor.objects.filter(email = request.user.email).first()
 
-        student, created = Student.objects.get_or_create(sponsor__id = sponsor.id )
+        sponsor = Sponsor.objects.filter(email=request.user.email).first()
+
+        student, created = Student.objects.get_or_create(
+            sponsor__id=sponsor.id)
 
         serializer = StudentSerializer(student)
 
@@ -174,7 +172,7 @@ class DebtView (APIView):
     def post(self, request):
 
         # Post Data for School to add a Debtor
-         
+
         if request.user.groups.filter(name="School").exists():
 
             serializer = DebtSerializer(request.data)
@@ -182,37 +180,35 @@ class DebtView (APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-
         # Post Data for Sponsor/Guardian/Parent To Contend
 
-        
-        sponsor = Sponsor.objects.filter(email = self.request.user.email).first()
+        sponsor = Sponsor.objects.filter(email=self.request.user.email).first()
 
-        student, created = Student.objects.get_or_create(sponsor__id = sponsor.id )
-        debt = Debt.objects.get(student_id = student.id)
+        student, created = Student.objects.get_or_create(
+            sponsor__id=sponsor.id)
+        debt = Debt.objects.get(student_id=student.id)
         serializer = ComplaintSerializer(
-            request.data, 
+            request.data,
             context={
-                    'debt': debt,
-                    'user' : request.user,
-                    'school': student.school
-                    
-                    }
-            )
+                'debt': debt,
+                'user': request.user,
+                'school': student.school
+
+            }
+        )
 
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-
-#View To retrieve  a list Cleared Debtors in a particualar school
+# View To retrieve  a list Cleared Debtors in a particualar school
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def cleared_debtors (request):
-    school = School.objects.get(user = request.user)
-    query = Student.objects.filter(debts__status = 'resolved', school = school)
-    serializer = ClearedDebtorsSerializer(query, many = True)
+def cleared_debtors(request):
+    school = School.objects.get(user=request.user)
+    query = Student.objects.filter(debts__status='resolved', school=school)
+    serializer = ClearedDebtorsSerializer(query, many=True)
 
     return Response(serializer.data, status=status.HTTP_200_OK)

@@ -18,7 +18,8 @@ class Post(models.Model):
     content = models.TextField()
     attachment = models.FileField(
         validators=[
-            FileExtensionValidator(allowed_extensions=["jpg", "png", "mp4", "mkv"])
+            FileExtensionValidator(allowed_extensions=[
+                                   "jpg", "png", "mp4", "mkv"])
         ],
         null=True,
         blank=True,
@@ -38,7 +39,8 @@ class Post(models.Model):
 class Comment(models.Model):
 
     content = models.TextField()
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name="comments")
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="comments"
