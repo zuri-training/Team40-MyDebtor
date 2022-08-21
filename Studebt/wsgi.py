@@ -1,5 +1,5 @@
 """
-WSGI config for NewProject40 project.
+WSGI config for Studebt project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'NewProject40.settings.dev')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Studebt.settings.dev')
 
 application = get_wsgi_application()

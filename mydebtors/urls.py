@@ -1,16 +1,22 @@
 from django.urls import path
-from rest_framework import routers
+from rest_framework_nested.routers import DefaultRouter, NestedDefaultRouter
+
 
 from .views import *
 
+router = DefaultRouter()
 
-router = routers.DefaultRouter()
-
+router.register('school', SchoolViewSet)
+router.register('principal', PrincipalViewSet)
 router.register('sponsor', SponsorViewSet )
 router.register('biodata', BioDataViewSet, basename='biodata')
 router.register('contend', ComplaintViewSet, basename='complaint')
 router.register('debt', DebtViewSet)
 
+
+student_router = NestedDefaultRouter(router, 'school', lookup = 'school')
+
+student_router.register('students', StudentViewSet, basename='school-students')
 
 
 
@@ -21,7 +27,18 @@ urlpatterns =  [
     path('mydebt', DebtView.as_view())
 ] 
 
-urlpatterns +=  router.urls 
+urlpatterns += router.urls + student_router.urls
+
+
+
+
+
+
+
+
+
+
+
 
 
 

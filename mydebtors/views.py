@@ -1,7 +1,7 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from info_hub.permissions import IsSchool
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.permissions import (IsAdminUser, IsAuthenticated,
                                         IsAuthenticatedOrReadOnly)
@@ -14,6 +14,41 @@ from .paginators import StudentPaginator
 from .serializers import *
 
 # Create your views here.
+
+
+
+class SchoolViewSet (ModelViewSet):
+    filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
+    filterset_fields = ['user', 'address', 'reg_number', 'name', 'id']
+    queryset = School.objects.all()
+    search_fields = ['user', 'address', 'reg_number', 'name', 'id']
+    ordering_fields = ['date_created', 'date_updated']
+    serializer_class = SchoolSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    @action(detail=False, methods=['GET', 'PUT'], permission_classes= [IsAuthenticated])
+    def me(self, request):
+        school = School.objects.get(user = request.user)
+
+        if request.method == 'GET':
+            serializer = SchoolSerializer(school)
+
+            return Response(serializer.data , status= status.HTTP_200_OK)
+        
+        elif request.method == 'PUT':
+
+            serializer = SchoolSerializer(school, request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+    
+
+class PrincipalViewSet (ModelViewSet):
+    queryset = Principal.objects.all()
+    serializer_class = PrincipalSerializer
+
+    def get_serializer_context(self):
+        return {'user': self.request.user}
 
 
 class StudentViewSet(ModelViewSet):

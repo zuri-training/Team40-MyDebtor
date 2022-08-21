@@ -15,10 +15,10 @@ SECRET_KEY = 'django-insecure-g%u0@r(y@racy6emq_n(shu(g%zmcrs5vu(!pn=8*pm+2=yc28
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'project40',
-        'HOST': 'localhost',
+        'NAME': 'Studebt',
+        'HOST':  'localhost',
         'USER': 'root',
-        'PASSWORD': '@Huzkid619',
+        'PASSWORD': config('PASSWORD'),
         'PORT': 3306,
     }
 }

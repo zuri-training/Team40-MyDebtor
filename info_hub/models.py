@@ -18,9 +18,8 @@ class Post(models.Model):
     content = models.TextField()
     attachment = models.FileField(
         validators=[
-            FileExtensionValidator(allowed_extensions=[
-                                   "jpg", "png", "mp4", "mkv"])
-        ],
+            FileExtensionValidator(allowed_extensions=["jpg", "png", "mp4", "mkv"])
+            ],
         null=True,
         blank=True,
     )

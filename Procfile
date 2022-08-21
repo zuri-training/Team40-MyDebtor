@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: gunicorn NewProject40.wsgi --log-file -
+web: gunicorn Studebt.wsgi --log-file -
