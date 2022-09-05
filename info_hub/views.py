@@ -1,12 +1,13 @@
-from rest_framework.viewsets import ModelViewSet
 from rest_framework import permissions
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.viewsets import ModelViewSet
+
+from .models import *
+from .permissions import IsSchool
+from .serializers import *
 
 # Create your views here.
 
-from .permissions import IsSchool
-from rest_framework.permissions import IsAuthenticated
-from .serializers import *
-from .models import *
 
 
 class PostViewSet(ModelViewSet):

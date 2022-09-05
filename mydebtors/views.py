@@ -16,7 +16,6 @@ from .serializers import *
 # Create your views here.
 
 
-
 class SchoolViewSet (ModelViewSet):
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     filterset_fields = ['user', 'address', 'reg_number', 'name', 'id']
@@ -26,22 +25,25 @@ class SchoolViewSet (ModelViewSet):
     serializer_class = SchoolSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    @action(detail=False, methods=['GET', 'PUT'], permission_classes= [IsAuthenticated])
+    @action(detail=False, methods=['GET', 'PUT'], permission_classes=[IsAuthenticated])
     def me(self, request):
-        school = School.objects.get(user = request.user)
+        try:
+            school = School.objects.get(user=request.user)
+        except:
+            return Response("user is not a school", status=status.HTTP_400_BAD_REQUEST)
 
         if request.method == 'GET':
             serializer = SchoolSerializer(school)
 
-            return Response(serializer.data , status= status.HTTP_200_OK)
-        
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
         elif request.method == 'PUT':
 
             serializer = SchoolSerializer(school, request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
-    
+
 
 class PrincipalViewSet (ModelViewSet):
     queryset = Principal.objects.all()
@@ -88,6 +90,19 @@ class StudentViewSet(ModelViewSet):
 
     #     return [permission() for permission in self.permission_classes]
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+       # Check if the docments submitted in the Principal form has been verified
+        principal = Principal.objects.get(user=request.user)
+        if principal.verification:
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+        return ValidationError("You cannot add debtors yet, as your verification is still pending")
+
 
 class SponsorViewSet (ModelViewSet):
     queryset = Sponsor.objects.all()
@@ -119,6 +134,8 @@ class DebtViewSet (ModelViewSet):
     def get_serializer_context(self):
         return {'user': self.request.user}
 
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
     # def get_permissions(self):
 
     #     if self.action == 'retrieve':

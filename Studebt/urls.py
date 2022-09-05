@@ -25,7 +25,7 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
-    # path('', include('core.urls')),
+    path('', include('core.urls')),
 
     path('admin/', admin.site.urls),
     path('auth/', include('djoser.urls')),
@@ -34,17 +34,17 @@ urlpatterns = [
 
     # path('login/', LoginView.as_view()),
 
-    path('__debug__/', include('debug_toolbar.urls')),
     
-    path('', include ('mydebtors.urls')),
+    path('debtors/', include ('mydebtors.urls')),
 
     # linking info_hub urls
-    path('', include ('info_hub.urls')),
+    path('info/', include ('info_hub.urls')),
 
 
     # path('biodata/<int:pk>', BioDataView.as_view()),
 
 
+    path('__debug__/', include('debug_toolbar.urls')),
 
     #Documentation Links
     
