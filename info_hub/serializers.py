@@ -1,4 +1,3 @@
-from turtle import pos
 from likes.models import Like
 from rest_framework import serializers
 from likes.serializers import LikeSerializer
