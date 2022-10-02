@@ -40,7 +40,7 @@ DATABASES = {
         'NAME': 'Studebt',
         'HOST':  'localhost',
         'USER': 'root',
-        'PASSWORD': config('PASSWORD'),
+        'PASSWORD': '@Huzkid619',
         'PORT': 3306,
     }
 }
