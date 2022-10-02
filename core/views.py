@@ -47,7 +47,7 @@ class OTPView (APIView):
             user = request.user
             user.is_verified = True
             user.save()
-            return Response({"success: 2FA successful "}, status=status.HTTP_202_ACCEPTED)
+            return Response({"success" : "2FA successful"}, status=status.HTTP_202_ACCEPTED)
 
         return Response("error: invalid otp")
 
@@ -74,7 +74,7 @@ def google_view(request):
     """
     # Alternatively, you can send a post request from directly.
 
-    response = requests.post('http://127.0.0.1:8000/dj/google', data={'code': code})
+    response = requests.post('http://127.0.0.1:8000/login/google', data={'code': code})
     print("status: " + response.status_code)
     print(response.json()['access_token'])
     """
