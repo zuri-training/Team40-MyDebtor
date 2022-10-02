@@ -1,25 +1,55 @@
-from django_filters.rest_framework import DjangoFilterBackend
-from djoser import utils
-from djoser.conf import settings
-from djoser.views import TokenCreateView, TokenDestroyView
-from rest_framework import status
-from rest_framework.filters import OrderingFilter, SearchFilter
-from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.decorators import action
-from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly, IsAuthenticated
-
-from .models import *
-from .serializers import *
-from django.shortcuts import render, redirect
-from .serializers import CustomSocialLoginSerializer
-# from auth.
-
-
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
-import requests
+from django.core.mail import send_mail
+from django.shortcuts import redirect
+from djoser import utils, views
+from pyotp import HOTP, random_base32
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from .models import *
+from .serializers import *
+from .serializers import CustomSocialLoginSerializer, OTPSerializer
+
+# from auth.
+
+
+class OTPView (APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        global hotp
+
+        hotp = HOTP(random_base32())
+
+        otp = hotp.at(1)
+
+        send_mail(
+            subject='New OTP',
+            message=f'Your OTP is : {otp}',
+            from_email='blazingkrane@gmail.com',
+            recipient_list=[request.user.email]
+        )
+
+        return Response({"Info": f"otp sent {otp}"})
+
+    def post(self, request):
+        serializer = OTPSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        otp = serializer.validated_data['otp']
+        if hotp.verify(otp, 1):
+
+            user = request.user
+            user.is_verified = True
+            user.save()
+            return Response({"success: 2FA successful "}, status=status.HTTP_202_ACCEPTED)
+
+        return Response("error: invalid otp")
 
 
 class CustomSocialLoginView(SocialLoginView):
@@ -41,7 +71,6 @@ def google_view(request):
     print(f"The code is : {code}")
     print("go to the browser to make a post request")
 
-    
     """
     # Alternatively, you can send a post request from directly.
 
@@ -55,25 +84,14 @@ def google_view(request):
 # https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http://127.0.0.1:8000/accounts/google/login/callback/&prompt=consent&response_type=code&client_id=878674025478-e8s4rf34md8h4n7qobb6mog43nfhfb7r.apps.googleusercontent.com&scope=openid%20email%20profile&access_type=offline
 
 
+class LogoutView (views.TokenDestroyView):
 
-# Create your views here.
-
-
-# class LoginView (TokenCreateView):
-
-#     serializer_class = settings.SERIALIZERS.token_create
-#     permission_classes = settings.PERMISSIONS.token_create
-
-#     def _action(self, serializer):
-#         token = utils.login_user(self.request, serializer.user)
-#         token_serializer_class = settings.SERIALIZERS.token
-#         print("HEllo Dumb Dumb")
-#         return Response(
-#             data=token_serializer_class(token).data, status=status.HTTP_200_OK
-#         )
-
-
-
-    
-
-
+    def post(self, request):
+        try:
+            user = request.user
+            user.is_verified = False
+            user.save()
+        except:
+            pass
+        utils.logout_user(request)
+        return Response(status=status.HTTP_204_NO_CONTENT)

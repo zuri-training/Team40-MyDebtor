@@ -12,6 +12,7 @@ router.register('sponsor', SponsorViewSet )
 router.register('biodata', BioDataViewSet, basename='biodata')
 router.register('contend', ComplaintViewSet, basename='complaint')
 router.register('debt', DebtViewSet)
+# router.register('contact-details', ContactViewSet, basename='contact_details')
 
 
 student_router = NestedDefaultRouter(router, 'school', lookup = 'school')
@@ -24,7 +25,9 @@ urlpatterns =  [
 
     path('cleared', cleared_debtors),
 
-    path('mydebt', DebtView.as_view())
+    path('mydebt', DebtView.as_view()),
+
+    path('contact-details', ContactViewSet.as_view(), ),
 ] 
 
 urlpatterns += router.urls + student_router.urls

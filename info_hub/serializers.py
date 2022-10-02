@@ -1,5 +1,7 @@
-from likes.models import LikedItem
+from turtle import pos
+from likes.models import Like
 from rest_framework import serializers
+from likes.serializers import LikeSerializer
 
 from .models import *
 
@@ -21,9 +23,14 @@ class AddCommentSerializer (serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
 
+    likes = serializers.SerializerMethodField()
+
     class Meta:
         model = Comment
-        fields = ['id', 'content', 'user', 'date_created']
+        fields = ['id', 'content', 'user', 'date_created', 'likes']
+
+    def get_likes(self, comment):
+        return comment.likes.count()
 
 
 class AddPostSerializer (serializers.ModelSerializer):
@@ -49,11 +56,12 @@ class PostSerializer(serializers.ModelSerializer):
     comment_count = serializers.SerializerMethodField()
     school_name = serializers.SerializerMethodField()
     school_logo = serializers.SerializerMethodField()
+    likes = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
         fields = ['id', 'content', 'attachment', 'user',
-                  'date_created', 'comment_count', 'school_name', 'school_logo']
+                  'date_created', 'comment_count', 'school_name', 'school_logo', 'likes']
 
     def get_comment_count(self, post):
         if post.comments:
@@ -67,6 +75,17 @@ class PostSerializer(serializers.ModelSerializer):
 
     def get_school_logo(self, post):
         return self.context['request'].build_absolute_uri(post.user.school.logo.url)
+
+    def get_likes(self, post):
+        return post.likes.count()
+
+
+class LikePostSerializer(LikeSerializer):
+    model = Post
+
+
+class LikeCommentSerializer (LikeSerializer):
+    model = Comment
 
 
 class ContactSerializer(serializers.ModelSerializer):
@@ -86,5 +105,5 @@ class NewsletterSerializer(serializers.ModelSerializer):
 class LikeSerializer (serializers.ModelSerializer):
 
     class Meta:
-        model = LikedItem
+        model = Like
         fields = '__all__'

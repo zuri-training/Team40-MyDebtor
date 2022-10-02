@@ -1,4 +1,4 @@
-from rest_framework import permissions
+from likes.views import LikeView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
@@ -9,21 +9,21 @@ from .serializers import *
 # Create your views here.
 
 
-
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     permission_classes = [IsSchool]
 
     def get_serializer_context(self):
-        return {'user': self.request.user}
+        return {'user': self.request.user, 'request' : self.request}
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return AddPostSerializer
         return PostSerializer
 
-    def get_serializer_context(self):
-        return {'request': self.request}
+
+class LikePostView (LikeView):
+    serializer_class = LikePostSerializer
 
 
 class CommentViewSet(ModelViewSet):
@@ -40,6 +40,10 @@ class CommentViewSet(ModelViewSet):
         if self.request.method == 'POST':
             return AddCommentSerializer
         return CommentSerializer
+
+
+class LikeCommentView(LikeView):
+    serializer_class = LikeCommentSerializer
 
 
 class ContactViewSet(ModelViewSet):

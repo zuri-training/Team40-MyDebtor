@@ -1,3 +1,4 @@
+import email
 from uuid import uuid4
 
 from django.conf import settings
@@ -36,6 +37,7 @@ class School (models.Model):
     address = models.CharField(max_length=1000)
     logo = models.ImageField(
         upload_to=get_school_logo_path, default='default.jpg')
+
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
@@ -44,6 +46,29 @@ class School (models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+class Settings (models.Model):
+
+    pass
+
+
+class ContactDetails(models.Model):
+    email = models.EmailField( null=True, blank=True)#  we will try to annotate later 
+    website = models.URLField()
+    facebook = models.URLField()
+    twitter = models.URLField()
+    phone1 = models.CharField(max_length=13)
+    phone2 = models.CharField(max_length=13)
+
+    user = models.OneToOneField(
+        USER, on_delete=models.CASCADE, related_name='contact')
+
+    def __str__(self):
+        return self.user.school.name
+    
+    class Meta:
+        verbose_name_plural = 'Contact Details'
 
 
 class Principal (models.Model):

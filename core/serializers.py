@@ -5,6 +5,7 @@ from django.db import IntegrityError
 from djoser.serializers import \
     UserCreatePasswordRetypeSerializer as RegisterSerializer
 from mydebtors.models import Sponsor
+from rest_framework import serializers
 
 from .models import *
 
@@ -35,3 +36,7 @@ class CustomUserCreateSerializer (RegisterSerializer):
             self.fail("cannot_create_user")
 
         return user
+
+
+class OTPSerializer (serializers.Serializer):
+    otp = serializers.CharField(max_length=6)

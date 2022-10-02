@@ -8,11 +8,12 @@ from rest_framework.permissions import (IsAdminUser, IsAuthenticated,
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
+from rest_framework import permissions
 
 from .models import *
 from .paginators import StudentPaginator
 from .serializers import *
-
+from django.shortcuts import get_object_or_404
 # Create your views here.
 
 
@@ -43,6 +44,54 @@ class SchoolViewSet (ModelViewSet):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+
+# class ContactViewSet (ModelViewSet):
+#     serializer_class = ContactSerializer
+#     permission_classes = [IsAuthenticatedOrReadOnly]
+
+
+#     def get_queryset(self):
+#         if self.request.method in permissions.SAFE_METHODS:
+#             return Contact.objects.all()
+#         return Contact.objects.filter(user = self.request.user)
+
+#     def get_serializer_context(self):
+#         return {'user': self.request.user}
+
+#     def perform_create(self, serializer):
+#         try:
+#             serializer.save()
+#         except:
+#             # raise self.get_serializer().ValidationError("Cannot create duplicate entries for contact, send a put/patch request instead")
+#             return Response({'error':"Cannot create duplicate entries for contact, send a put/patch request instead"}, status=status.HTTP_400_BAD_REQUEST)
+
+class ContactViewSet(APIView):
+    def post(self, request):
+        serializer = ContactDetailSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        if not ContactDetails.objects.filter(user=request.user):
+            serializer.save(user=request.user)
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response({"error : user already has contact details stored, try sending a put request instead "}, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request):
+        if request.user.is_authenticated:
+            contact_details = ContactDetails.objects.get(user=request.user)
+            contact_details.counter
+            serializer = ContactDetailSerializer(contact_details)
+
+            return Response(serializer.data, status.HTTP_200_OK)
+
+        return Response({"error": " User must be authenticated to get contact details"})
+
+    def put(self, request):
+        contact_details = get_object_or_404(ContactDetails, user=request.user)
+        serializer = ContactDetailSerializer(contact_details, request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
 
 class PrincipalViewSet (ModelViewSet):
@@ -94,7 +143,7 @@ class StudentViewSet(ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-       # Check if the docments submitted in the Principal form has been verified
+        # Check if the docments submitted in the Principal form has been verified
         principal = Principal.objects.get(user=request.user)
         if principal.verification:
             self.perform_create(serializer)

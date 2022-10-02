@@ -10,9 +10,4 @@ class StudentAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Student, StudentAdmin)
-admin.site.register(Sponsor)
-
-admin.site.register(Debt)  
-
-def hello():
-    pass
+admin.site.register([Sponsor, School, Debt, ContactDetails])

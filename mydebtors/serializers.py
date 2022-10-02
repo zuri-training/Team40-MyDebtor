@@ -25,6 +25,30 @@ class SchoolSerializer (serializers.ModelSerializer):
         return school.complaints.count()
 
 
+class ContactDetailSerializer (serializers.ModelSerializer):
+    user_email = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ContactDetails
+        fields = ['id',  'website',
+                  'facebook', 'twitter', 'phone1', 'phone2', 'user_id', 'email', 'user_email']
+        # Not necesacry since the name no more conflicts with any other Serializer
+        # ref_name = 'school_contact'
+
+    def get_user_email(self, contact: ContactDetails):
+
+        return contact.user.email
+  
+    # def save(self, **kwargs):
+    #     user=self.context['user']
+
+    #     if Contact.objects.filter(user_id = user.id):
+
+    #         return Contact.objects.update(user_id = user.id, **self.validated_data)
+
+    #     return Contact.objects.create(user = user, **self.validated_data)
+
+
 class PrincipalSerializer (serializers.ModelSerializer):
     #user = serializers.IntegerField(read_only =True)
     class Meta:
