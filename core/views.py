@@ -49,7 +49,7 @@ class OTPView (APIView):
             user.save()
             return Response({"success" : "2FA successful"}, status=status.HTTP_202_ACCEPTED)
 
-        return Response("error: invalid otp")
+        return Response({"error" : "invalid otp"})
 
 
 class CustomSocialLoginView(SocialLoginView):
